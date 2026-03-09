@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSVP - Dương Đức & Thanh Hằng</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Be+Vietnam+Pro:wght@300;400;500;600&family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="slideshow" aria-hidden="true">
+      <div class="slide active" style="background-image: url('assets/banner1.JPG')"></div>
+      <div class="slide" style="background-image: url('assets/banner2.JPG')"></div>
+      <div class="slide" style="background-image: url('assets/banner3.JPG')"></div>
+      <div class="slide" style="background-image: url('assets/banner4.JPG')"></div>
+    </div>
+
+    <div id="loading-screen" class="loading-screen" aria-live="polite">
+      <div class="loading-screen__paper" role="dialog" aria-modal="true" aria-label="Thiệp mời">
+        <p class="loading-screen__eyebrow">Wedding Invitation</p>
+        <p class="loading-screen__brand">D &amp; T</p>
+        <p class="loading-screen__invite-label">Trân trọng kính mời</p>
+        <h2 id="loading-guest-name" class="loading-screen__guest-name">Nguyễn Văn A</h2>
+
+        <div class="paper-fold" aria-hidden="true"></div>
+        <button
+          id="open-invitation"
+          class="loading-screen__seal-button"
+          type="button"
+          aria-label="Mở thiệp cưới"
+        >
+          <img src="assets/stamp.png" alt="" aria-hidden="true" />
+        </button>
+        <p class="loading-screen__hint">Nhấn vào con dấu để mở thiệp</p>
+      </div>
+    </div>
+
+    <header class="hero" id="home">
+      <section class="hero-content">
+        <p class="hero-eyebrow">Save the date</p>
+        <h1>Dương Đức &amp; Thanh Hằng</h1>
+        <div class="flourish" aria-hidden="true">
+          <span class="flourish-line"></span>
+          <span class="flourish-diamond">✦</span>
+          <span class="flourish-line"></span>
+        </div>
+        <p class="hero-status">
+          <span class="hero-status__meta">APR</span>
+          <span class="hero-status__dot">.</span>
+          <span class="hero-status__day">20</span>
+          <span class="hero-status__dot">.</span>
+          <span class="hero-status__meta">2026</span>
+        </p>
+      </section>
+    </header>
+
+    <main>
+      <section class="short-story" id="story">
+        <div class="short-story__teal" aria-hidden="true"></div>
+        <div class="short-story__botanical" aria-hidden="true">
+          <img src="assets/botanic.svg" alt="Botanic" />
+        </div>
+
+        <div class="short-story__grid">
+          <div></div>
+          <div class="short-story__content">
+            <h2>He asked her &amp; she said yes!</h2>
+            <p>
+              Từ một cuộc gặp tình cờ, chúng tôi đã cùng nhau đi qua nhiều cột mốc đáng nhớ.
+              Tình yêu lớn dần qua từng ngày, để hôm nay chúng tôi hạnh phúc thông báo
+              rằng chúng tôi sắp về chung một nhà.
+            </p>
+            <a href="#" class="btn-story">Our Love Story</a>
+          </div>
+
+          <div class="short-story__visual">
+            <div class="photo-frame">
+              <img src="assets/story1.JPG" alt="Ảnh cặp đôi Dương Đức và Thanh Hằng" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="invitation" id="invitation">
+        <div class="container">
+
+          <!-- Save-the-date card -->
+          <div class="std-card">
+
+            <div class="std-card__body">
+              <div class="std-card__top">
+                <div class="std-card__strip">
+                  <div class="std-card__seal" aria-hidden="true">
+                    <img src="assets/stamp.png" alt="Wax seal D&amp;H" />
+                  </div>
+                  <p class="std-card__save-text">
+                    <span>save</span>
+                    <span>the</span>
+                    <span>date</span>
+                  </p>
+                </div>
+                <div class="std-card__date-block">
+                  <span>20</span>
+                  <span>04</span>
+                  <span>26</span>
+                </div>
+              </div>
+
+              <div class="std-card__info">
+                <p class="std-card__for">Cho lễ thành hôn của</p>
+                <div class="std-card__names-wrap">
+                  <img
+                    class="std-card__botanic std-card__botanic--left"
+                    src="assets/botanic2.png"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                  <p class="std-card__names">Dương Đức &amp; Thanh Hằng</p>
+                  <img
+                    class="std-card__botanic std-card__botanic--right"
+                    src="assets/botanic2.png"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </div>
+                <div class="std-card__together-image">
+                  <img src="assets/together.png" alt="Ảnh cặp đôi Dương Đức và Thanh Hằng" />
+                </div>
+                <p class="std-card__detail">Thứ Hai, 20 tháng 04 năm 2026 · 17:00</p>
+                <p class="std-card__detail">Hanoi Tower Wedding & Convention</p>
+                <div class="std-card__dash">—</div>
+                <p class="std-card__tagline">Trân trọng kính mời</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="timeline" id="timeline">
+        <div class="container timeline__container">
+          <h2 class="timeline__heading">
+            <span>Timeline</span>
+          </h2>
+          <div class="timeline__schedule">
+            <div class="timeline__item">
+              <p class="timeline__time">16:30</p>
+              <div class="timeline__event">
+                <img
+                  class="timeline__icon"
+                  src="assets/welcome.png"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <p class="timeline__label">Đón khách</p>
+              </div>
+            </div>
+
+            <div class="timeline__item">
+              <p class="timeline__time">17:00</p>
+              <div class="timeline__event">
+                <img
+                  class="timeline__icon"
+                  src="assets/ceremony.png"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <p class="timeline__label">Lễ thành hôn</p>
+              </div>
+            </div>
+
+            <div class="timeline__item">
+              <p class="timeline__time">19:30</p>
+              <div class="timeline__event">
+                <img
+                  class="timeline__icon"
+                  src="assets/dinner.png"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <p class="timeline__label">Khai tiệc</p>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="timeline__heading">
+            <span>Dress Code</span>
+
+            <div class="dress-code__swatches">
+              <img src="assets/gold.png" alt="Gold" />
+              <img src="assets/blue.png" alt="Blue" />
+              <img src="assets/red.png" alt="Red" />
+              <img src="assets/black.png" alt="Black" />
+            </div>
+          </h2>
+        </div>
+      </section>
+
+      <!-- Our love story -->
+      <section class="our-love-story" id="our-love-story">
+        <div class="container our-love-story__container">
+          <p class="our-love-story__eyebrow">Our Journey</p>
+          <h2 class="our-love-story__heading">Our Love Story</h2>
+
+          <div class="our-love-story__timeline">
+            <article class="story-moment">
+              <span class="story-moment__marker" aria-hidden="true"></span>
+              <div class="story-moment__content">
+                <div class="story-slider" data-story-slider>
+                  <div class="story-slider__viewport">
+                    <div class="story-slider__track">
+                      <figure class="story-slider__slide">
+                        <img src="assets/story1.JPG" alt="Khoanh khac dau tien cua cap doi" />
+                      </figure>
+                      <figure class="story-slider__slide">
+                        <img src="assets/banner1.JPG" alt="Nu cuoi rang ro trong ngay hen ho" />
+                      </figure>
+                    </div>
+                  </div>
+                  <button
+                    class="story-slider__button story-slider__button--prev"
+                    type="button"
+                    aria-label="Xem anh truoc"
+                    data-story-prev
+                  >
+                    &#8249;
+                  </button>
+                  <button
+                    class="story-slider__button story-slider__button--next"
+                    type="button"
+                    aria-label="Xem anh tiep theo"
+                    data-story-next
+                  >
+                    &#8250;
+                  </button>
+                  <div class="story-slider__dots" aria-label="Chuyen anh">
+                    <button class="story-slider__dot" type="button" aria-label="Anh 1" data-story-dot></button>
+                    <button class="story-slider__dot" type="button" aria-label="Anh 2" data-story-dot></button>
+                  </div>
+                </div>
+
+                <div class="story-note">
+                  <p class="story-note__step">01</p>
+                  <h3>Ngay dau gap go</h3>
+                  <p>
+                    Giua muon van dieu tinh co, chung toi vo tinh tim thay nhau trong mot ngay
+                    rat doi binh thuong. Cuoc tro chuyen dau tien den that nhe nhang, nhung du de
+                    gieo vao tim ca hai mot su rung dong dac biet.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article class="story-moment">
+              <span class="story-moment__marker" aria-hidden="true"></span>
+              <div class="story-moment__content">
+                <div class="story-slider" data-story-slider>
+                  <div class="story-slider__viewport">
+                    <div class="story-slider__track">
+                      <figure class="story-slider__slide">
+                        <img src="assets/banner2.JPG" alt="Cap doi trong mot buoi hen ho lang man" />
+                      </figure>
+                      <figure class="story-slider__slide">
+                        <img src="assets/banner3.JPG" alt="Khoanh khac cung nhau di choi va tro chuyen" />
+                      </figure>
+                    </div>
+                  </div>
+                  <button
+                    class="story-slider__button story-slider__button--prev"
+                    type="button"
+                    aria-label="Xem anh truoc"
+                    data-story-prev
+                  >
+                    &#8249;
+                  </button>
+                  <button
+                    class="story-slider__button story-slider__button--next"
+                    type="button"
+                    aria-label="Xem anh tiep theo"
+                    data-story-next
+                  >
+                    &#8250;
+                  </button>
+                  <div class="story-slider__dots" aria-label="Chuyen anh">
+                    <button class="story-slider__dot" type="button" aria-label="Anh 1" data-story-dot></button>
+                    <button class="story-slider__dot" type="button" aria-label="Anh 2" data-story-dot></button>
+                  </div>
+                </div>
+
+                <div class="story-note">
+                  <p class="story-note__step">02</p>
+                  <h3>Nhung hen ho dau tien</h3>
+                  <p>
+                    Tu nhung ly ca phe, nhung chuyen di ngan cuoi tuan cho den nhung tin nhan hoi
+                    tham moi ngay, chung toi dan quen voi su xuat hien cua nhau va nhan ra trai tim
+                    minh da co mot nguoi de mong cho.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article class="story-moment">
+              <span class="story-moment__marker" aria-hidden="true"></span>
+              <div class="story-moment__content">
+                <div class="story-slider" data-story-slider>
+                  <div class="story-slider__viewport">
+                    <div class="story-slider__track">
+                      <figure class="story-slider__slide">
+                        <img src="assets/banner3.JPG" alt="Cap doi cung dong hanh trong nhung chuyen di" />
+                      </figure>
+                      <figure class="story-slider__slide">
+                        <img src="assets/banner4.JPG" alt="Ky niem dep tren hanh trinh yeu thuong" />
+                      </figure>
+                    </div>
+                  </div>
+                  <button
+                    class="story-slider__button story-slider__button--prev"
+                    type="button"
+                    aria-label="Xem anh truoc"
+                    data-story-prev
+                  >
+                    &#8249;
+                  </button>
+                  <button
+                    class="story-slider__button story-slider__button--next"
+                    type="button"
+                    aria-label="Xem anh tiep theo"
+                    data-story-next
+                  >
+                    &#8250;
+                  </button>
+                  <div class="story-slider__dots" aria-label="Chuyen anh">
+                    <button class="story-slider__dot" type="button" aria-label="Anh 1" data-story-dot></button>
+                    <button class="story-slider__dot" type="button" aria-label="Anh 2" data-story-dot></button>
+                  </div>
+                </div>
+
+                <div class="story-note">
+                  <p class="story-note__step">03</p>
+                  <h3>Dong hanh va truong thanh</h3>
+                  <p>
+                    Tinh yeu cua chung toi lon len qua tung chuyen di, tung khoanh khac dong vien
+                    nhau va ca nhung lan cung nhau vuot qua moi dieu khong nhu y. O ben nhau, moi
+                    ngay deu tro thanh mot ky niem dang quy.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article class="story-moment">
+              <span class="story-moment__marker" aria-hidden="true"></span>
+              <div class="story-moment__content">
+                <div class="story-slider" data-story-slider>
+                  <div class="story-slider__viewport">
+                    <div class="story-slider__track">
+                      <figure class="story-slider__slide">
+                        <img src="assets/banner4.JPG" alt="Khoanh khac cam dong truoc khi cau hon" />
+                      </figure>
+                      <figure class="story-slider__slide">
+                        <img src="assets/story1.JPG" alt="Cap doi san sang viet tiep cau chuyen moi" />
+                      </figure>
+                    </div>
+                  </div>
+                  <button
+                    class="story-slider__button story-slider__button--prev"
+                    type="button"
+                    aria-label="Xem anh truoc"
+                    data-story-prev
+                  >
+                    &#8249;
+                  </button>
+                  <button
+                    class="story-slider__button story-slider__button--next"
+                    type="button"
+                    aria-label="Xem anh tiep theo"
+                    data-story-next
+                  >
+                    &#8250;
+                  </button>
+                  <div class="story-slider__dots" aria-label="Chuyen anh">
+                    <button class="story-slider__dot" type="button" aria-label="Anh 1" data-story-dot></button>
+                    <button class="story-slider__dot" type="button" aria-label="Anh 2" data-story-dot></button>
+                  </div>
+                </div>
+
+                <div class="story-note">
+                  <p class="story-note__step">04</p>
+                  <h3>Va loi cau hon</h3>
+                  <p>
+                    Sau tat ca nhung ngay thang dep de ay, chung toi biet rang dieu minh muon nhat
+                    chinh la nam tay nhau di het chang duong con lai. Tu day, mot chuong moi duoc
+                    mo ra bang mot loi hua tron ven cua yeu thuong.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="signature">&#10084; from Dương Đức &amp; Thanh Hằng, 2026</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
