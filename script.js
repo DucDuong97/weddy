@@ -6,7 +6,7 @@ const acceptBtn = document.getElementById("accept-btn");
 const greeting = document.getElementById("attendance-greeting");
 const DEFAULT_GUEST_NAME = "Nguyễn Văn A";
 const TEXT_FADE_DURATION = 600;
-const UNSEAL_DURATION = 2000;
+const UNSEAL_DURATION = 1000;
 let isOpeningInvitation = false;
 
 const params = new URLSearchParams(window.location.search);
@@ -30,7 +30,11 @@ const openInvitation = () => {
   }, TEXT_FADE_DURATION + UNSEAL_DURATION);
 };
 
-if (loadingScreen) {
+const isLocalhost = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+
+if (loadingScreen && isLocalhost) {
+  loadingScreen.classList.add("hidden");
+} else if (loadingScreen) {
   document.body.classList.add("loading-active");
 }
 
