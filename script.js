@@ -139,9 +139,11 @@ const bgMusic = document.getElementById("bg-music");
 const cdPlayer = document.getElementById("cd-player");
 
 const startMusic = () => {
-  if (!bgMusic) return;
-  bgMusic.volume = 0.6;
-  bgMusic.play().catch(() => {});
+  setTimeout(() => {
+    if (!bgMusic) return;
+    bgMusic.volume = 0.6;
+    bgMusic.play().catch(() => {});
+  }, 2000);
 };
 
 const toggleMute = () => {

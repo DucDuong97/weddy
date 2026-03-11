@@ -26,6 +26,10 @@ body.loading-active {
   overflow: hidden;
 }
 
+body.loading-active .cd-player {
+  display: none;
+}
+
 body::-webkit-scrollbar {
   display: none;
 }
