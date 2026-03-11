@@ -19,6 +19,7 @@ body {
   line-height: 1.65;
   scrollbar-width: none;
   margin-right: -20px;
+  overflow-x: hidden;
 }
 
 body.loading-active {
@@ -34,7 +35,7 @@ body::-webkit-scrollbar {
   margin-inline: auto;
 }
 
-.loading-screen {
+.letter-seal-screen {
   position: fixed;
   inset: 0;
   display: grid;
@@ -44,17 +45,17 @@ body::-webkit-scrollbar {
   transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-.loading-screen.hidden {
+.letter-seal-screen.hidden {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
 
-.loading-screen.is-opening {
+.letter-seal-screen.is-opening {
   pointer-events: none;
 }
 
-.loading-screen__paper {
+.letter-seal-screen__paper {
   width: 100%;
   min-height: 100svh;
   display: grid;
@@ -73,7 +74,7 @@ body::-webkit-scrollbar {
   overflow: hidden;
 }
 
-.loading-screen__paper::after {
+.letter-seal-screen__paper::after {
   inset: auto auto 28px 28px;
   width: 140px;
   height: 140px;
@@ -83,7 +84,7 @@ body::-webkit-scrollbar {
   filter: blur(4px);
 }
 
-.loading-screen__eyebrow {
+.letter-seal-screen__eyebrow {
   margin: 0;
   letter-spacing: 0.34em;
   text-transform: uppercase;
@@ -91,7 +92,7 @@ body::-webkit-scrollbar {
   color: rgba(91, 64, 20, 0.78);
 }
 
-.loading-screen__brand {
+.letter-seal-screen__brand {
   margin: 0;
   font-family: "Playfair Display", serif;
   font-size: clamp(2.6rem, 8vw, 4.8rem);
@@ -100,7 +101,7 @@ body::-webkit-scrollbar {
   letter-spacing: 0.1em;
 }
 
-.loading-screen__invite-label {
+.letter-seal-screen__invite-label {
   margin: 0.2rem 0 0;
   font-size: 0.9rem;
   letter-spacing: 0.22em;
@@ -108,21 +109,21 @@ body::-webkit-scrollbar {
   color: rgba(91, 64, 20, 0.75);
 }
 
-.loading-screen__eyebrow,
-.loading-screen__brand,
-.loading-screen__invite-label {
+.letter-seal-screen__eyebrow,
+.letter-seal-screen__brand,
+.letter-seal-screen__invite-label {
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-.loading-screen.is-opening .loading-screen__eyebrow,
-.loading-screen.is-opening .loading-screen__brand,
-.loading-screen.is-opening .loading-screen__guest-name,
-.loading-screen.is-opening .loading-screen__invite-label {
+.letter-seal-screen.is-opening .letter-seal-screen__eyebrow,
+.letter-seal-screen.is-opening .letter-seal-screen__brand,
+.letter-seal-screen.is-opening .letter-seal-screen__guest-name,
+.letter-seal-screen.is-opening .letter-seal-screen__invite-label {
   opacity: 0;
   transform: translateY(-14px);
 }
 
-.loading-screen__guest-name {
+.letter-seal-screen__guest-name {
   margin: 0;
   max-width: 24ch;
   font-family: "Great Vibes", cursive;
@@ -174,7 +175,7 @@ body::-webkit-scrollbar {
   clip-path: polygon(100% 0%, calc(100% - var(--fold-h) * tan(75deg)) 100%, 100% 100%);
 }
 
-.loading-screen__seal-button {
+.letter-seal-screen__seal-button {
   margin-top: calc(clamp(150px, 24vw, 220px) * -0.7);
   padding: 0;
   border: 0;
@@ -186,34 +187,34 @@ body::-webkit-scrollbar {
   z-index: 2;
 }
 
-.loading-screen.is-opening .loading-screen__seal-button {
+.letter-seal-screen.is-opening .letter-seal-screen__seal-button {
   animation: none;
 }
 
-.loading-screen.is-unsealing .paper-fold,
-.loading-screen.is-unsealing .loading-screen__seal-button {
+.letter-seal-screen.is-unsealing .paper-fold,
+.letter-seal-screen.is-unsealing .letter-seal-screen__seal-button {
   transform: translateY(-800px);
 }
 
-.loading-screen__seal-button:hover,
-.loading-screen__seal-button:focus-visible {
+.letter-seal-screen__seal-button:hover,
+.letter-seal-screen__seal-button:focus-visible {
   transform: translateY(-4px) scale(1.03);
   filter: drop-shadow(0 16px 24px rgba(125, 87, 20, 0.26));
 }
 
-.loading-screen__seal-button:focus-visible {
+.letter-seal-screen__seal-button:focus-visible {
   outline: 2px solid rgba(154, 124, 46, 0.72);
   outline-offset: 6px;
   border-radius: 999px;
 }
 
-.loading-screen__seal-button img {
+.letter-seal-screen__seal-button img {
   display: block;
   width: clamp(112px, 24vw, 14vw);
   height: auto;
 }
 
-.loading-screen__hint {
+.letter-seal-screen__hint {
   margin: 0;
   font-size: 0.95rem;
   color: rgba(91, 64, 20, 0.82);
@@ -1469,24 +1470,24 @@ blockquote {
 
 @media (max-width: 700px) {
 
-  .loading-screen__paper {
+  .letter-seal-screen__paper {
     min-height: auto;
     padding: 2.75rem 0 2rem;
   }
 
-  .loading-screen__eyebrow,
-  .loading-screen__invite-label {
+  .letter-seal-screen__eyebrow,
+  .letter-seal-screen__invite-label {
     letter-spacing: 0.2em;
   }
 
-  .loading-screen__guest-name {
+  .letter-seal-screen__guest-name {
     max-width: 100%;
   }
 
   .paper-fold {
     height: clamp(130px, 34vw, 180px);
   }
-  .loading-screen__seal-button {
+  .letter-seal-screen__seal-button {
     margin-top: calc(clamp(130px, 34vw, 180px) * -1);
   }
 
@@ -1533,4 +1534,86 @@ blockquote {
   .short-story__botanical {
     display: none;
   }
+}
+
+/* ── CD Music Player ─────────────────────────────────────────── */
+@keyframes cd-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes cd-appear {
+  from { opacity: 0; transform: scale(0.6) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.cd-player {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 90px;
+  height: 90px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 1000;
+  border-radius: 50%;
+  animation: cd-appear 0.5s ease both;
+}
+
+/* Hub ring */
+.cd-player::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(100, 80, 40, 0.3);
+  border-radius: 50%;
+  background: rgba(139, 136, 128, 0.8);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Center hole */
+.cd-player::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #4a4040, #1a1515);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.9);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.cd-disc {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35), 0 1px 4px rgba(0,0,0,0.2);
+  animation: cd-spin 3s linear infinite;
+  transition: filter 0.3s ease;
+}
+
+.cd-player.is-muted .cd-disc {
+  animation-play-state: paused;
+  filter: grayscale(0.6) brightness(0.8);
+}
+
+.cd-player:hover .cd-disc {
+  filter: brightness(1.1);
+}
+
+.cd-player.is-muted:hover .cd-disc {
+  filter: grayscale(0.3) brightness(0.9);
 }

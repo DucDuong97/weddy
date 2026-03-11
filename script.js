@@ -1,4 +1,4 @@
-const loadingScreen = document.getElementById("loading-screen");
+const loadingScreen = document.getElementById("letter-seal-screen");
 const openInvitationButton = document.getElementById("open-invitation");
 const loadingGuestName = document.getElementById("loading-guest-name");
 const feedback = document.getElementById("form-feedback");
@@ -32,7 +32,7 @@ const openInvitation = () => {
 
 const isLocalhost = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
 
-if (loadingScreen && isLocalhost) {
+if (loadingScreen && isLocalhost && false) {
   loadingScreen.classList.add("hidden");
 } else if (loadingScreen) {
   document.body.classList.add("loading-active");
@@ -133,6 +133,36 @@ storySliders.forEach((slider) => {
 if (openInvitationButton) {
   openInvitationButton.addEventListener("click", openInvitation);
 }
+
+// CD Music Player
+const bgMusic = document.getElementById("bg-music");
+const cdPlayer = document.getElementById("cd-player");
+
+const startMusic = () => {
+  if (!bgMusic) return;
+  bgMusic.volume = 0.6;
+  bgMusic.play().catch(() => {});
+};
+
+const toggleMute = () => {
+  if (!bgMusic || !cdPlayer) return;
+  const muted = !bgMusic.muted;
+  bgMusic.muted = muted;
+  cdPlayer.classList.toggle("is-muted", muted);
+  cdPlayer.setAttribute("aria-pressed", String(muted));
+};
+
+if (cdPlayer) {
+  cdPlayer.addEventListener("click", toggleMute);
+}
+
+// Start music after the invitation is opened (requires user gesture)
+if (openInvitationButton) {
+  openInvitationButton.addEventListener("click", startMusic, { once: true });
+}
+
+// Also attempt autoplay on any first interaction with the page
+document.addEventListener("click", startMusic, { once: true });
 
 if (acceptBtn && feedback) {
   acceptBtn.addEventListener("click", () => {

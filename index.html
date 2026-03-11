@@ -20,23 +20,23 @@
       <div class="slide" style="background-image: url('assets/banner4.JPG')"></div>
     </div>
 
-    <div id="loading-screen" class="loading-screen" aria-live="polite">
-      <div class="loading-screen__paper" role="dialog" aria-modal="true" aria-label="Thiệp mời">
-        <p class="loading-screen__eyebrow">Wedding Invitation</p>
-        <p class="loading-screen__brand">Đ &amp; H</p>
-        <p class="loading-screen__invite-label">Trân trọng kính mời</p>
-        <h2 id="loading-guest-name" class="loading-screen__guest-name">Nguyễn Văn A</h2>
+    <div id="letter-seal-screen" class="letter-seal-screen" aria-live="polite">
+      <div class="letter-seal-screen__paper" role="dialog" aria-modal="true" aria-label="Thiệp mời">
+        <p class="letter-seal-screen__eyebrow">Wedding Invitation</p>
+        <p class="letter-seal-screen__brand">Đ &amp; H</p>
+        <p class="letter-seal-screen__invite-label">Trân trọng kính mời</p>
+        <h2 id="loading-guest-name" class="letter-seal-screen__guest-name">Nguyễn Văn A</h2>
 
         <div class="paper-fold" aria-hidden="true"></div>
         <button
           id="open-invitation"
-          class="loading-screen__seal-button"
+          class="letter-seal-screen__seal-button"
           type="button"
           aria-label="Mở thiệp cưới"
         >
           <img src="assets/stamp.png" alt="" aria-hidden="true" />
         </button>
-        <p class="loading-screen__hint">Nhấn vào con dấu để mở thiệp</p>
+        <p class="letter-seal-screen__hint">Nhấn vào con dấu để mở thiệp</p>
       </div>
     </div>
 
@@ -429,6 +429,12 @@
         <p class="signature">&#10084; from Dương Đức &amp; Thanh Hằng, 2026</p>
       </div>
     </footer>
+
+    <!-- CD Music Player -->
+    <audio id="bg-music" src="assets/music/forever.love.mp3" loop preload="auto"></audio>
+    <button id="cd-player" class="cd-player" type="button" aria-label="Tắt/bật nhạc nền" aria-pressed="false">
+      <img class="cd-disc" src="assets/cd.png" alt="CD" aria-hidden="true" />
+    </button>
 
     <script src="script.js"></script>
   </body>
