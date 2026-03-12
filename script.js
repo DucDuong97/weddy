@@ -163,9 +163,6 @@ if (openInvitationButton) {
   openInvitationButton.addEventListener("click", startMusic, { once: true });
 }
 
-// Also attempt autoplay on any first interaction with the page
-document.addEventListener("click", startMusic, { once: true });
-
 if (acceptBtn && feedback) {
   acceptBtn.addEventListener("click", () => {
     acceptBtn.disabled = true;

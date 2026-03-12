@@ -692,15 +692,31 @@ body::-webkit-scrollbar {
   align-items: center;
   justify-content: center;
   padding: 0.55rem 1.5rem;
-  background: var(--card);
-  border: 1px solid var(--border);
-  box-shadow: 0 2px 12px rgba(30, 26, 20, 0.1);
+  background: none;
+  border: none;
+  box-shadow: none;
   font-family: "Playfair Display", serif;
   font-size: 1.6rem;
   font-style: italic;
   letter-spacing: 0.06em;
   color: var(--accent-dark);
   white-space: nowrap;
+}
+
+.story-moment__marker::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/botanic3.png") center / contain no-repeat;
+  opacity: 0.8;
+  z-index: -1;
+}
+
+.story-moment__decor {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: rotate(45deg);
 }
 
 .story-moment__content {
@@ -892,6 +908,10 @@ body::-webkit-scrollbar {
 }
 
 @media (max-width: 540px) {
+  .hero h1 span {
+    display: block;
+  }
+
   .std-card {
     flex-direction: column;
   }
