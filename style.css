@@ -1520,7 +1520,6 @@ blockquote {
 @media (max-width: 700px) {
 
   .letter-seal-screen__paper {
-    min-height: auto;
     padding: 2.75rem 0 2rem;
   }
 
