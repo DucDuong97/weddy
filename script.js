@@ -4,7 +4,7 @@ const loadingGuestName = document.getElementById("loading-guest-name");
 const feedback = document.getElementById("form-feedback");
 const acceptBtn = document.getElementById("accept-btn");
 const greeting = document.getElementById("attendance-greeting");
-const DEFAULT_GUEST_NAME = "Nguyễn Văn A";
+const DEFAULT_GUEST_NAME = "";
 const TEXT_FADE_DURATION = 600;
 const UNSEAL_DURATION = 1000;
 let isOpeningInvitation = false;
@@ -27,6 +27,7 @@ const openInvitation = () => {
   window.setTimeout(() => {
     loadingScreen.classList.add("hidden");
     document.body.classList.remove("loading-active");
+    document.querySelector(".hero")?.classList.add("hero-revealed");
   }, TEXT_FADE_DURATION + UNSEAL_DURATION);
 };
 
@@ -34,8 +35,11 @@ const isLocalhost = ["localhost", "127.0.0.1", ""].includes(window.location.host
 
 if (loadingScreen && isLocalhost) {
   loadingScreen.classList.add("hidden");
+  document.querySelector(".hero")?.classList.add("hero-revealed");
 } else if (loadingScreen) {
   document.body.classList.add("loading-active");
+} else {
+  document.querySelector(".hero")?.classList.add("hero-revealed");
 }
 
 window.addEventListener("load", () => {
@@ -162,6 +166,21 @@ if (cdPlayer) {
 if (openInvitationButton) {
   openInvitationButton.addEventListener("click", startMusic, { once: true });
 }
+
+// Section entrance animations
+const sectionObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        sectionObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.15 }
+);
+
+document.querySelectorAll("[data-animate-section]").forEach((el) => sectionObserver.observe(el));
 
 if (acceptBtn && feedback) {
   acceptBtn.addEventListener("click", () => {

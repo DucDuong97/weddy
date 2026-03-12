@@ -612,6 +612,30 @@ body::-webkit-scrollbar {
   line-height: 1.3;
 }
 
+/* Our-love-story entrance animations */
+.our-love-story__heading,
+.story-moment__marker,
+.story-moment .story-slider,
+.story-moment .story-note {
+  opacity: 0;
+}
+
+.our-love-story.is-visible .our-love-story__heading {
+  animation: fadeDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
+}
+
+.story-moment.is-visible .story-moment__marker {
+  animation: fadeDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
+}
+
+.story-moment.is-visible .story-slider {
+  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+}
+
+.story-moment.is-visible .story-note {
+  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+}
+
 .our-love-story {
   position: relative;
   z-index: 1;
@@ -844,6 +868,41 @@ body::-webkit-scrollbar {
 .footer {
   position: relative;
   z-index: 1;
+}
+
+/* Wedding-gallery entrance animations */
+.wedding-gallery__eyebrow,
+.wedding-gallery__heading,
+.gallery-item {
+  opacity: 0;
+}
+
+.wedding-gallery.is-visible .wedding-gallery__eyebrow {
+  animation: fadeDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
+}
+
+.wedding-gallery.is-visible .wedding-gallery__heading {
+  animation: fadeDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s forwards;
+}
+
+.wedding-gallery.is-visible .gallery-item:nth-child(1) {
+  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.25s forwards;
+}
+
+.wedding-gallery.is-visible .gallery-item:nth-child(2) {
+  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.38s forwards;
+}
+
+.wedding-gallery.is-visible .gallery-item:nth-child(3) {
+  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.46s forwards;
+}
+
+.wedding-gallery.is-visible .gallery-item:nth-child(4) {
+  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.54s forwards;
+}
+
+.wedding-gallery.is-visible .gallery-item:nth-child(5) {
+  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.62s forwards;
 }
 
 /* ── Wedding Gallery ── */
@@ -1279,6 +1338,45 @@ h1 {
   letter-spacing: 0;
 }
 
+/* Hero entrance animations */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scaleX(0.55); }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+
+.hero-eyebrow,
+.hero-content h1,
+.flourish,
+.hero-status {
+  opacity: 0;
+}
+
+.hero.hero-revealed .hero-eyebrow {
+  animation: fadeDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+}
+
+.hero.hero-revealed .hero-content h1 {
+  animation: fadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.25s forwards;
+}
+
+.hero.hero-revealed .flourish {
+  animation: fadeIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards;
+}
+
+.hero.hero-revealed .hero-status {
+  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
+}
+
 .btn-ghost {
   background: transparent;
   border: 1.5px solid rgba(255, 255, 255, 0.75);
@@ -1306,6 +1404,30 @@ h1 {
 
 .btn:hover {
   background: var(--accent-dark);
+}
+
+/* Short-story entrance animations */
+.short-story__content h2,
+.short-story__content p,
+.short-story__content .btn-story,
+.short-story__visual {
+  opacity: 0;
+}
+
+.short-story.is-visible .short-story__content h2 {
+  animation: fadeDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
+}
+
+.short-story.is-visible .short-story__content p {
+  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+
+.short-story.is-visible .short-story__content .btn-story {
+  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.38s forwards;
+}
+
+.short-story.is-visible .short-story__visual {
+  animation: fadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.12s forwards;
 }
 
 .short-story {
