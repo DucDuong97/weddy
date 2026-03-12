@@ -5,6 +5,7 @@
   --accent-dark: #9a7c2e;
   --card: #ffffff;
   --border: #e6d9b8;
+  --dune-red: #8b2c2c;
 }
 
 * {
@@ -1602,6 +1603,59 @@ blockquote {
   margin-top: 0.45rem;
 }
 
+.footer__lucky-money {
+  margin-bottom: 1.5rem;
+}
+
+.footer__lucky-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  color: var(--accent-dark);
+  font-weight: 700;
+  margin: 0 0 1rem;
+}
+
+.footer__lucky-subtitle {
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  color: #8a7550;
+  margin: 0 0 1rem;
+}
+
+.footer__qr-row {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.footer__qr-person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.footer__qr-name {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(0.85rem, 2.2vw, 1rem);
+  color: var(--accent-dark);
+  font-weight: 600;
+  margin: 0;
+}
+
+.footer__qr-wrap {
+  display: inline-block;
+  padding: 0.2rem;
+  border: 5px solid var(--dune-red);
+}
+
+.footer__qr {
+  display: block;
+  width: clamp(130px, 30vw, 180px);
+  height: auto;
+  border-radius: 6px;
+}
+
 .signature {
   font-family: "Playfair Display", serif;
   font-size: clamp(0.9rem, 2.2vw, 1.05rem);
@@ -1725,6 +1779,209 @@ blockquote {
   .short-story__botanical {
     display: none;
   }
+}
+
+/* ── RSVP ────────────────────────────────────────────────────── */
+.rsvp {
+  padding: clamp(4rem, 10vw, 7rem) 0;
+  background: var(--bg);
+  position: relative;
+}
+
+.rsvp::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/paper.webp") center / cover no-repeat;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.rsvp__container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.rsvp__eyebrow {
+  margin: 0;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--accent-dark);
+}
+
+.rsvp__heading {
+  margin: 0;
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1;
+}
+
+.rsvp__desc {
+  margin: 0;
+  max-width: 480px;
+  font-size: 0.95rem;
+  color: rgba(30, 26, 20, 0.75);
+  line-height: 1.7;
+}
+
+.rsvp__desc strong {
+  color: var(--text);
+}
+
+.rsvp__card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: left;
+}
+
+.rsvp__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.rsvp__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.rsvp__optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: rgba(30, 26, 20, 0.5);
+}
+
+.rsvp__input,
+.rsvp__textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  resize: none;
+  outline: none;
+}
+
+.rsvp__input:focus,
+.rsvp__textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.18);
+}
+
+.rsvp__textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.rsvp__textarea:focus {
+  border-bottom-color: var(--accent);
+  box-shadow: none;
+}
+
+.rsvp__input::placeholder,
+.rsvp__textarea::placeholder {
+  color: rgba(30, 26, 20, 0.35);
+}
+
+.rsvp__actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.rsvp__btn {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: opacity 0.18s ease;
+}
+
+.rsvp__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.rsvp__btn--accept {
+  color: var(--accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.rsvp__btn--accept:hover:not(:disabled) {
+  opacity: 0.75;
+}
+
+.rsvp__btn--decline {
+  color: rgba(30, 26, 20, 0.5);
+}
+
+.rsvp__btn--decline:hover:not(:disabled) {
+  color: var(--text);
+}
+
+.rsvp__feedback {
+  width: 100%;
+  max-width: 520px;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  animation: rsvp-fade-in 0.4s ease both;
+}
+
+@keyframes rsvp-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.rsvp__feedback-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.rsvp__feedback-text {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.7;
+  text-align: center;
 }
 
 /* ── CD Music Player ─────────────────────────────────────────── */

@@ -462,10 +462,64 @@
         </div>
       </section>
 
+      <!-- RSVP -->
+      <section class="rsvp" id="rsvp" data-animate-section>
+        <div class="container rsvp__container">
+          <p class="rsvp__eyebrow">Xác nhận tham dự</p>
+          <h2 class="rsvp__heading">RSVP</h2>
+          <p class="rsvp__desc">
+            Vui lòng xác nhận trước ngày <strong>15 tháng 04 năm 2026</strong>
+            để chúng mình chuẩn bị đón tiếp bạn chu đáo nhất.
+          </p>
+
+          <div class="rsvp__card" id="rsvp-form-wrap">
+            <div class="rsvp__field">
+              <label class="rsvp__label" for="rsvp-message">Lời nhắn <span class="rsvp__optional">(tuỳ chọn)</span></label>
+              <textarea
+                class="rsvp__textarea"
+                id="rsvp-message"
+                rows="3"
+                placeholder="Gửi lời chúc đến cô dâu và chú rể…"
+              ></textarea>
+            </div>
+            <div class="rsvp__actions">
+              <button class="rsvp__btn rsvp__btn--accept" id="rsvp-accept" type="button">
+                Tôi sẽ tham dự!
+              </button>
+              <button class="rsvp__btn rsvp__btn--decline" id="rsvp-decline" type="button">
+                Tôi không thể đến &#58;&#40;
+              </button>
+            </div>
+          </div>
+
+          <div class="rsvp__feedback" id="rsvp-feedback" hidden>
+            <div class="rsvp__feedback-icon" id="rsvp-feedback-icon" aria-hidden="true"></div>
+            <p class="rsvp__feedback-text" id="rsvp-feedback-text"></p>
+          </div>
+        </div>
+      </section>
+
     </main>
 
     <footer class="footer">
       <div class="container">
+        <div class="footer__lucky-money">
+          <p class="footer__lucky-title">Mừng cưới</p>
+          <div class="footer__qr-row">
+            <div class="footer__qr-person">
+              <div class="footer__qr-wrap">
+                <img class="footer__qr" src="assets/qr.png" alt="QR chuyển khoản - Chú rể" />
+              </div>
+              <p class="footer__qr-name">Dale</p>
+            </div>
+            <div class="footer__qr-person">
+              <div class="footer__qr-wrap">
+                <img class="footer__qr" src="assets/qr.png" alt="QR chuyển khoản - Cô dâu" />
+              </div>
+              <p class="footer__qr-name">Hailey</p>
+            </div>
+          </div>
+        </div>
         <p class="signature">&#10084; from Dale &amp; Hailey, 2026</p>
       </div>
     </footer>

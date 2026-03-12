@@ -1,8 +1,6 @@
 const loadingScreen = document.getElementById("letter-seal-screen");
 const openInvitationButton = document.getElementById("open-invitation");
 const loadingGuestName = document.getElementById("loading-guest-name");
-const feedback = document.getElementById("form-feedback");
-const acceptBtn = document.getElementById("accept-btn");
 const greeting = document.getElementById("attendance-greeting");
 const DEFAULT_GUEST_NAME = "";
 const TEXT_FADE_DURATION = 600;
@@ -182,10 +180,68 @@ const sectionObserver = new IntersectionObserver(
 
 document.querySelectorAll("[data-animate-section]").forEach((el) => sectionObserver.observe(el));
 
-if (acceptBtn && feedback) {
-  acceptBtn.addEventListener("click", () => {
-    acceptBtn.disabled = true;
-    acceptBtn.textContent = "Đã xác nhận";
-    feedback.textContent = `Cảm ơn ${guestName}, bạn đã xác nhận tham dự. Hẹn gặp bạn trong ngày vui của chúng tôi!`;
+// RSVP
+const SLACK_WEBHOOK = "";
+
+const rsvpMessageInput = document.getElementById("rsvp-message");
+const rsvpAcceptBtn = document.getElementById("rsvp-accept");
+const rsvpDeclineBtn = document.getElementById("rsvp-decline");
+const rsvpFormWrap = document.getElementById("rsvp-form-wrap");
+const rsvpFeedback = document.getElementById("rsvp-feedback");
+const rsvpFeedbackIcon = document.getElementById("rsvp-feedback-icon");
+const rsvpFeedbackText = document.getElementById("rsvp-feedback-text");
+
+const sendRsvpToSlack = async (attending, name, message) => {
+  const statusEmoji = attending ? "✅" : "❌";
+  const statusLabel = attending ? "Sẽ tham dự" : "Không thể tham dự";
+  const lines = [
+    `${statusEmoji} *RSVP mới từ thiệp cưới Đức & Hằng*`,
+    `*Khách:* ${name || "(Không tên)"}`,
+    `*Trả lời:* ${statusLabel}`,
+  ];
+  if (message) {
+    lines.push(`*Lời nhắn:* ${message}`);
+  }
+  await fetch(SLACK_WEBHOOK, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: lines.join("\n") }),
   });
+};
+
+const submitRsvp = async (attending) => {
+  const name = guestName || "(Không tên)";
+  const message = rsvpMessageInput?.value.trim() || "";
+
+  if (rsvpAcceptBtn) rsvpAcceptBtn.disabled = true;
+  if (rsvpDeclineBtn) rsvpDeclineBtn.disabled = true;
+
+  try {
+    await sendRsvpToSlack(attending, name, message);
+  } catch (_) {
+    // fail silently — still show thank-you
+  }
+
+  if (rsvpFormWrap) rsvpFormWrap.hidden = true;
+  if (rsvpFeedback) rsvpFeedback.hidden = false;
+
+  if (attending) {
+    if (rsvpFeedbackIcon) rsvpFeedbackIcon.textContent = "🎉";
+    if (rsvpFeedbackText) {
+      rsvpFeedbackText.textContent = `Cảm ơn ${name}! Chúng mình rất vui khi được đón tiếp bạn. Hẹn gặp nhau vào ngày 20 tháng 04 năm 2026 nhé!`;
+    }
+  } else {
+    if (rsvpFeedbackIcon) rsvpFeedbackIcon.textContent = "💌";
+    if (rsvpFeedbackText) {
+      rsvpFeedbackText.textContent = `Cảm ơn ${name} đã thông báo. Chúng mình rất tiếc khi không được gặp bạn, nhưng luôn trân trọng tình cảm của bạn!`;
+    }
+  }
+};
+
+if (rsvpAcceptBtn) {
+  rsvpAcceptBtn.addEventListener("click", () => submitRsvp(true));
+}
+
+if (rsvpDeclineBtn) {
+  rsvpDeclineBtn.addEventListener("click", () => submitRsvp(false));
 }
