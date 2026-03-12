@@ -68,7 +68,7 @@ body::-webkit-scrollbar {
   gap: 0.9rem;
   padding: clamp(2rem, 5vw, 3.5rem) 0;
   text-align: center;
-  background: url("assets/paper.png");
+  background: url("assets/paper.webp");
   background-size: cover;
   background-position: center;
   border: 0;
@@ -296,7 +296,7 @@ body::-webkit-scrollbar {
   margin: 0 auto 2rem;
   background: rgba(255, 255, 255, 0.9);
 
-  background-image: url("assets/paper.png");
+  background-image: url("assets/paper.webp");
   background-size: cover;
   background-position: center;
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.18);
@@ -479,7 +479,7 @@ body::-webkit-scrollbar {
   padding: 2.75rem 2.5rem 3rem;
   background: rgba(255, 255, 255, 0.9);
 
-  background-image: url("assets/paper.png");
+  background-image: url("assets/paper.webp");
   background-size: cover;
   background-position: center;
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
@@ -731,7 +731,7 @@ body::-webkit-scrollbar {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("assets/botanic3.png") center / contain no-repeat;
+  background: url("assets/botanic3.webp") center / contain no-repeat;
   opacity: 0.8;
   z-index: -1;
 }
@@ -1434,7 +1434,7 @@ h1 {
   position: relative;
   padding-block: 3rem;
   background: var(--bg);
-  background-image: url("assets/paper.png");
+  background-image: url("assets/paper.webp");
   background-size: cover;
   background-position: center;
   transform: skewY(-3deg);
