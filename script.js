@@ -32,7 +32,7 @@ const openInvitation = () => {
 
 const isLocalhost = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
 
-if (loadingScreen && isLocalhost && false) {
+if (loadingScreen && isLocalhost) {
   loadingScreen.classList.add("hidden");
 } else if (loadingScreen) {
   document.body.classList.add("loading-active");
