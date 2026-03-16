@@ -679,9 +679,7 @@ body::-webkit-scrollbar {
 
 /* Our-love-story entrance animations */
 .our-love-story__heading,
-.story-moment__marker,
-.story-moment .story-slider,
-.story-moment .story-note {
+.story-year-group {
   opacity: 0;
 }
 
@@ -694,16 +692,8 @@ body::-webkit-scrollbar {
   animation: fadeDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
 }
 
-.story-year-group.is-visible .story-moment__marker {
-  animation: fadeDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
-}
-
-.story-year-group.is-visible .story-slider {
-  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
-}
-
-.story-year-group.is-visible .story-note {
-  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+.story-year-group.is-visible {
+  animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
 }
 
 .our-love-story {
