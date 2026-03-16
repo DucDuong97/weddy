@@ -143,7 +143,7 @@
           <span class="hero-status__dot">.</span>
           <span class="hero-status__meta">2026</span>
         </p>
-        <a href="#story" class="scroll-down" aria-label="Scroll down">
+        <a class="scroll-down" aria-label="Scroll down" onclick="event.preventDefault(); document.getElementById('story').scrollIntoView({ behavior: 'smooth' });">
           <span class="scroll-down__mouse">
             <span class="scroll-down__wheel"></span>
           </span>
@@ -167,8 +167,16 @@
               From a time I carried her to get wisdom teeth removed, we have gone through many memorable milestones together. Love grew day by day, and today we are happy to announce that we are soon moving in together under one roof.
             </p>
             <div class="short-story__cta">
-              <a href="#our-love-story" class="btn-story">Our Love Story</a>
-              <a href="#invitation" class="btn-story">View Invitation</a>
+              <a
+                class="btn-story"
+                onclick="event.preventDefault(); document.getElementById('our-love-story').scrollIntoView({ behavior: 'smooth' });"
+                >Our Love Story</a
+              >
+              <a
+                class="btn-story"
+                onclick="event.preventDefault(); document.getElementById('invitation').scrollIntoView({ behavior: 'smooth' });"
+                >View Invitation</a
+              >
             </div>
           </div>
 
@@ -562,7 +570,11 @@
               </div>
 
               <div class="std-card__cta">
-                <a href="#rsvp" class="btn-story">RSVP</a>
+                <a
+                  class="btn-story"
+                  onclick="event.preventDefault(); document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });"
+                  >RSVP</a
+                >
               </div>
             </div>
           </div>
