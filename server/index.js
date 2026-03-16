@@ -19,8 +19,6 @@ const normalizeNotionId = (id) => {
 
 const DB_ID = normalizeNotionId(process.env.NOTION_DATABASE_ID);
 
-console.log("DB_ID:", DB_ID);
-
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
 app.use(cors());
@@ -91,8 +89,12 @@ const archivePage = async (pageId) => {
 app.post("/rsvp", async (req, res) => {
   try {
     const { attending, name, message } = req.body;
+    console.log("attending:", attending);
+    console.log("name:", name);
+    console.log("message:", message);
     const respondedAt = new Date().toISOString();
     const existing = await findByName(name || "");
+    console.log("existing:", existing);
     if (existing) {
       await updateRsvp(existing.id, !!attending, message || "", respondedAt);
     } else {
