@@ -43,6 +43,7 @@ let isOpeningInvitation = false;
 
 const params = new URLSearchParams(window.location.search);
 const guestName = params.get("name")?.trim() || DEFAULT_GUEST_NAME;
+const hasGuestNameFromQuery = Boolean(guestName);
 
 const openInvitation = () => {
   if (!loadingScreen || isOpeningInvitation) {
@@ -76,11 +77,13 @@ if (loadingScreen && isLocalhost) {
 
 window.addEventListener("load", () => {
   if (loadingGuestName) {
-    loadingGuestName.textContent = guestName;
+    loadingGuestName.textContent = guestName || "Bạn";
   }
 
   if (greeting) {
-    greeting.textContent = `${guestName} ơi, sự hiện diện của bạn là món quà quý giá nhất đối với chúng tôi.`;
+    greeting.textContent = guestName
+      ? `${guestName} ơi, sự hiện diện của bạn là món quà quý giá nhất đối với chúng tôi.`
+      : "Sự hiện diện của bạn là món quà quý giá nhất đối với chúng tôi.";
   }
 });
 
@@ -209,12 +212,22 @@ document.querySelectorAll("[data-animate-section]").forEach((el) => sectionObser
 // RSVP
 
 const rsvpMessageInput = document.getElementById("rsvp-message");
+const rsvpNameField = document.getElementById("rsvp-name-field");
+const rsvpNameInput = document.getElementById("rsvp-name");
 const rsvpAcceptBtn = document.getElementById("rsvp-accept");
 const rsvpDeclineBtn = document.getElementById("rsvp-decline");
 const rsvpFormWrap = document.getElementById("rsvp-form-wrap");
 const rsvpFeedback = document.getElementById("rsvp-feedback");
 const rsvpFeedbackIcon = document.getElementById("rsvp-feedback-icon");
 const rsvpFeedbackText = document.getElementById("rsvp-feedback-text");
+
+if (rsvpNameField) {
+  rsvpNameField.hidden = hasGuestNameFromQuery;
+}
+
+if (rsvpNameInput) {
+  rsvpNameInput.required = !hasGuestNameFromQuery;
+}
 
 const sendRsvpToServer = async (attending, name, message) => {
   await fetch(SERVER_URL + "/rsvp", {
@@ -224,9 +237,28 @@ const sendRsvpToServer = async (attending, name, message) => {
   });
 };
 
+const getRsvpName = () => {
+  if (hasGuestNameFromQuery) {
+    return guestName;
+  }
+
+  const typedName = rsvpNameInput?.value.trim() || "";
+
+  if (!typedName && rsvpNameInput) {
+    rsvpNameInput.reportValidity();
+    rsvpNameInput.focus();
+  }
+
+  return typedName;
+};
+
 const submitRsvp = async (attending) => {
-  const name = guestName || "(Không tên)";
+  const name = getRsvpName();
   const message = rsvpMessageInput?.value.trim() || "";
+
+  if (!name) {
+    return;
+  }
 
   if (rsvpAcceptBtn) rsvpAcceptBtn.disabled = true;
   if (rsvpDeclineBtn) rsvpDeclineBtn.disabled = true;

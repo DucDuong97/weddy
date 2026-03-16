@@ -36,7 +36,7 @@
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Be+Vietnam+Pro:wght@300;400;500;600&family=Great+Vibes&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css?v=31" />
+    <link rel="stylesheet" href="style.css?v=32" />
 
     <style>
       #loading-screen {
@@ -120,7 +120,10 @@
         >
           <img src="assets/stamp.webp" alt="" aria-hidden="true" />
         </button>
-        <p class="letter-seal-screen__hint">Nhấn vào con dấu để mở thiệp</p>
+        <p class="letter-seal-screen__hint">
+          Tap the seal to open the invitation<br />
+          Turn on your sound to hear the background music
+        </p>
       </div>
     </div>
 
@@ -506,7 +509,7 @@
                 </div>
                 <div class="std-card_event">
                   <p class="std-card__title">Lễ cưới tại nhà gái</p>
-                  <p class="std-card__detail time">Chủ Nhật, 18 tháng 04 năm 2026 · 10:30</p>
+                  <p class="std-card__detail time">Chủ Nhật, 18 / 04 / 2026 · 10:30</p>
                   <p class="std-card__detail location">Sơn Nam Center · 235 Lê Hồng Phong, Vị Xuyên, Nam Định</p>
                   <div class="std-card__event-actions">
                     <a
@@ -531,7 +534,7 @@
                 </div>
                 <div class="std-card_event">
                   <p class="std-card__title">Lễ cưới tại nhà trai</p>
-                  <p class="std-card__detail time">Thứ Hai, 20 tháng 04 năm 2026 · 17:00</p>
+                  <p class="std-card__detail time">Thứ Hai, 20 / 04 / 2026 · 17:00</p>
                   <p class="std-card__detail location">Hanoi Tower · 49 P. Hai Bà Trưng, Hoàn Kiếm, Hà Nội</p>
                   <div class="std-card__event-actions">
                     <a
@@ -669,6 +672,17 @@
           </p>
 
           <div class="rsvp__card" id="rsvp-form-wrap">
+            <div class="rsvp__field" id="rsvp-name-field" hidden>
+              <label class="rsvp__label" for="rsvp-name">Tên của bạn</label>
+              <input
+                class="rsvp__input"
+                id="rsvp-name"
+                name="name"
+                type="text"
+                placeholder="Nhập tên của bạn"
+                autocomplete="name"
+              />
+            </div>
             <div class="rsvp__field">
               <label class="rsvp__label" for="rsvp-message">Lời nhắn <span class="rsvp__optional">(tuỳ chọn)</span></label>
               <textarea
@@ -716,6 +730,9 @@
             </div>
           </div>
         </div>
+        <div class="footer__thank-you">
+          <p class="footer__thank-you-text">Thank you for being part of our journey as we grow together. Your presence would mean the world to us.</p>
+        </div>
         <p class="signature">&#10084; from Dale &amp; Hailey, 2026</p>
       </div>
     </footer>
@@ -737,6 +754,6 @@
       <img class="cd-disc" src="assets/cd.webp" alt="CD" aria-hidden="true" />
     </button>
 
-    <script src="script.js?v=30"></script>
+    <script src="script.js?v=32"></script>
   </body>
 </html>
