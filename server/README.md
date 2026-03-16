@@ -24,8 +24,9 @@ Data is stored in a **Notion database**.
 3. Open the database, click **Share** (top-right) → **Invite** your integration.
 
 4. Copy the database ID from its URL:  
-   `https://notion.so/yourworkspace/<DATABASE_ID>?v=...`  
-   This is your `NOTION_DATABASE_ID`.
+   `https://notion.so/yourworkspace/abc123def456...?v=...`  
+   The long hex string before `?v=` is your `NOTION_DATABASE_ID`.  
+   Paste it as-is — hyphens are added automatically.
 
 ## Local dev
 

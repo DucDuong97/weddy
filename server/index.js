@@ -5,7 +5,21 @@ const { Client } = require("@notionhq/client");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const INVITE_BASE_URL = (process.env.INVITE_BASE_URL || "https://beourguest.space").replace(/\/$/, "");
-const DB_ID = process.env.NOTION_DATABASE_ID;
+if (!process.env.NOTION_TOKEN || !process.env.NOTION_DATABASE_ID) {
+  console.error("Missing NOTION_TOKEN or NOTION_DATABASE_ID env vars");
+  process.exit(1);
+}
+
+// Notion URLs give a raw 32-char hex ID; the API needs the hyphenated UUID form.
+const normalizeNotionId = (id) => {
+  const raw = id.replace(/-/g, "");
+  if (raw.length !== 32) return id;
+  return `${raw.slice(0,8)}-${raw.slice(8,12)}-${raw.slice(12,16)}-${raw.slice(16,20)}-${raw.slice(20)}`;
+};
+
+const DB_ID = normalizeNotionId(process.env.NOTION_DATABASE_ID);
+
+console.log("DB_ID:", DB_ID);
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
