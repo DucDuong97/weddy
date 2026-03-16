@@ -75,7 +75,7 @@ const openInvitation = () => {
   }, TEXT_FADE_DURATION + UNSEAL_DURATION);
 };
 
-const isLocalhost = false;
+const isLocalhost = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
 
 if (loadingScreen && isLocalhost) {
   loadingScreen.classList.add("hidden");
@@ -281,49 +281,131 @@ const lightboxPrev    = document.getElementById("lightbox-prev");
 const lightboxNext    = document.getElementById("lightbox-next");
 const lightboxBackdrop = document.getElementById("lightbox-backdrop");
 
-const galleryImgs = Array.from(
-  document.querySelectorAll(".wedding-gallery__grid .gallery-item img")
+const galleryItems = Array.from(
+  document.querySelectorAll(".wedding-gallery__grid .gallery-item")
 );
+
+const galleryEntries = galleryItems.map((item, index) => ({
+  index,
+  element: item,
+  thumb: item.dataset.thumb || "",
+  full: item.dataset.full || "",
+  alt: item.dataset.alt || "",
+  imageElement: null,
+}));
 
 let currentLightboxIdx = 0;
 
+const mountGalleryImage = (entry) => {
+  if (!entry || entry.imageElement) {
+    return;
+  }
+
+  const img = document.createElement("img");
+  img.src = entry.thumb;
+  img.alt = entry.alt;
+  img.loading = "lazy";
+  img.decoding = "async";
+  entry.imageElement = img;
+  entry.element.appendChild(img);
+  entry.element.classList.add("is-loaded");
+};
+
+const unmountGalleryImage = (entry) => {
+  if (!entry?.imageElement) {
+    return;
+  }
+
+  entry.imageElement.remove();
+  entry.imageElement = null;
+  entry.element.classList.remove("is-loaded");
+};
+
 const openLightbox = (idx) => {
   currentLightboxIdx = idx;
-  const img = galleryImgs[idx];
-  lightboxImg.src = img.dataset.full || img.src;
-  lightboxImg.alt = img.alt;
+  const entry = galleryEntries[idx];
+  if (!entry || !lightbox || !lightboxImg || !lightboxClose) {
+    return;
+  }
+
+  lightboxImg.src = entry.full || entry.thumb;
+  lightboxImg.alt = entry.alt;
   lightbox.hidden = false;
   document.body.style.overflow = "hidden";
   lightboxClose.focus();
 };
 
 const closeLightbox = () => {
+  if (!lightbox || !lightboxImg) {
+    return;
+  }
+
   lightbox.hidden = true;
   lightboxImg.src = "";
   document.body.style.overflow = "";
 };
 
 const showPrev = () => {
-  const idx = (currentLightboxIdx - 1 + galleryImgs.length) % galleryImgs.length;
+  const idx = (currentLightboxIdx - 1 + galleryEntries.length) % galleryEntries.length;
   openLightbox(idx);
 };
 
 const showNext = () => {
-  const idx = (currentLightboxIdx + 1) % galleryImgs.length;
+  const idx = (currentLightboxIdx + 1) % galleryEntries.length;
   openLightbox(idx);
 };
 
-galleryImgs.forEach((img, idx) => {
-  img.parentElement.addEventListener("click", () => openLightbox(idx));
+galleryEntries.forEach((entry) => {
+  entry.element.setAttribute("role", "button");
+  entry.element.setAttribute("tabindex", "0");
+  entry.element.setAttribute("aria-label", `Mo anh ${entry.index + 1}`);
+  entry.element.addEventListener("click", () => openLightbox(entry.index));
+  entry.element.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openLightbox(entry.index);
+    }
+  });
 });
 
-lightboxClose.addEventListener("click", closeLightbox);
-lightboxBackdrop.addEventListener("click", closeLightbox);
-lightboxPrev.addEventListener("click", showPrev);
-lightboxNext.addEventListener("click", showNext);
+if ("IntersectionObserver" in window) {
+  // Keep only nearby gallery images mounted to reduce DOM and decoding work.
+  const galleryImageObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((observerEntry) => {
+        const idx = Number(observerEntry.target.dataset.galleryIndex);
+        const galleryEntry = galleryEntries[idx];
+
+        if (!galleryEntry) {
+          return;
+        }
+
+        if (observerEntry.isIntersecting) {
+          mountGalleryImage(galleryEntry);
+          return;
+        }
+
+        unmountGalleryImage(galleryEntry);
+      });
+    },
+    {
+      rootMargin: "800px 0px",
+      threshold: 0.01,
+    }
+  );
+
+  galleryEntries.forEach((entry) => galleryImageObserver.observe(entry.element));
+} else {
+  galleryEntries.forEach(mountGalleryImage);
+}
+
+lightboxClose?.addEventListener("click", closeLightbox);
+lightboxBackdrop?.addEventListener("click", closeLightbox);
+lightboxPrev?.addEventListener("click", showPrev);
+lightboxNext?.addEventListener("click", showNext);
 
 document.addEventListener("keydown", (e) => {
-  if (lightbox.hidden) return;
+  if (!lightbox || lightbox.hidden) return;
   if (e.key === "Escape")      closeLightbox();
   if (e.key === "ArrowLeft")   showPrev();
   if (e.key === "ArrowRight")  showNext();
