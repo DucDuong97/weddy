@@ -1,76 +1,130 @@
 const express = require("express");
 const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
+const { Client } = require("@notionhq/client");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DATA_FILE = path.join(__dirname, "data.json");
 const INVITE_BASE_URL = (process.env.INVITE_BASE_URL || "https://beourguest.space").replace(/\/$/, "");
+const DB_ID = process.env.NOTION_DATABASE_ID;
+
+const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
 app.use(cors());
 app.use(express.json());
 
-const loadData = () => {
-  if (!fs.existsSync(DATA_FILE)) return { invitations: [] };
-  return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+// ── Notion helpers ────────────────────────────────────────────────────────────
+const pageToInvitation = (page) => {
+  const props = page.properties;
+  const status = props.Attending?.select?.name ?? "Pending";
+  return {
+    id: page.id,
+    name: props.Name?.title?.[0]?.plain_text ?? "",
+    url: props.URL?.url ?? "",
+    createdAt: page.created_time,
+    rsvp: status === "Pending" ? null : {
+      attending: status === "Yes",
+      message: props.Message?.rich_text?.[0]?.plain_text ?? "",
+      respondedAt: props.RespondedAt?.date?.start ?? null,
+    },
+  };
 };
 
-const saveData = (data) => fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+const getInvitations = async () => {
+  const res = await notion.databases.query({
+    database_id: DB_ID,
+    sorts: [{ timestamp: "created_time", direction: "descending" }],
+  });
+  return res.results.map(pageToInvitation);
+};
+
+const findByName = async (name) => {
+  const res = await notion.databases.query({
+    database_id: DB_ID,
+    filter: { property: "Name", title: { equals: name } },
+  });
+  return res.results[0] ? pageToInvitation(res.results[0]) : null;
+};
+
+const createInvitation = async (name, url) => {
+  const page = await notion.pages.create({
+    parent: { database_id: DB_ID },
+    properties: {
+      Name: { title: [{ text: { content: name } }] },
+      URL: { url },
+      Attending: { select: { name: "Pending" } },
+      Message: { rich_text: [] },
+    },
+  });
+  return pageToInvitation(page);
+};
+
+const updateRsvp = async (pageId, attending, message, respondedAt) => {
+  await notion.pages.update({
+    page_id: pageId,
+    properties: {
+      Attending: { select: { name: attending ? "Yes" : "No" } },
+      Message: { rich_text: [{ text: { content: message } }] },
+      RespondedAt: { date: { start: respondedAt } },
+    },
+  });
+};
+
+const archivePage = async (pageId) => {
+  await notion.pages.update({ page_id: pageId, archived: true });
+};
 
 // ── RSVP endpoint (called by the wedding site) ────────────────────────────────
-app.post("/rsvp", (req, res) => {
-  const { attending, name, message } = req.body;
-  const data = loadData();
-  const inv = data.invitations.find(
-    (i) => i.name.toLowerCase() === (name || "").toLowerCase()
-  );
-  const rsvp = {
-    attending: !!attending,
-    message: message || "",
-    respondedAt: new Date().toISOString(),
-  };
-  if (inv) {
-    inv.rsvp = rsvp;
-  } else {
-    data.invitations.push({
-      id: Date.now().toString(),
-      name: name || "(unknown)",
-      url: `${INVITE_BASE_URL}/?name=${encodeURIComponent(name || "")}`,
-      createdAt: new Date().toISOString(),
-      rsvp,
-    });
+app.post("/rsvp", async (req, res) => {
+  try {
+    const { attending, name, message } = req.body;
+    const respondedAt = new Date().toISOString();
+    const existing = await findByName(name || "");
+    if (existing) {
+      await updateRsvp(existing.id, !!attending, message || "", respondedAt);
+    } else {
+      const url = `${INVITE_BASE_URL}/?name=${encodeURIComponent(name || "")}`;
+      const inv = await createInvitation(name || "(unknown)", url);
+      await updateRsvp(inv.id, !!attending, message || "", respondedAt);
+    }
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to save RSVP" });
   }
-  saveData(data);
-  res.json({ ok: true });
 });
 
 // ── Admin API ─────────────────────────────────────────────────────────────────
-app.get("/admin/invitations", (_req, res) => res.json(loadData().invitations));
-
-app.post("/admin/invitations", (req, res) => {
-  const { name } = req.body;
-  if (!name) return res.status(400).json({ error: "name required" });
-  const data = loadData();
-  const trimmed = name.trim();
-  const url = `${INVITE_BASE_URL}/?name=${encodeURIComponent(trimmed)}`;
-  const inv = {
-    id: Date.now().toString(),
-    name: trimmed,
-    url,
-    createdAt: new Date().toISOString(),
-    rsvp: null,
-  };
-  data.invitations.push(inv);
-  saveData(data);
-  res.json(inv);
+app.get("/admin/invitations", async (_req, res) => {
+  try {
+    res.json(await getInvitations());
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to load invitations" });
+  }
 });
 
-app.delete("/admin/invitations/:id", (req, res) => {
-  const data = loadData();
-  data.invitations = data.invitations.filter((i) => i.id !== req.params.id);
-  saveData(data);
-  res.json({ ok: true });
+app.post("/admin/invitations", async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ error: "name required" });
+    const trimmed = name.trim();
+    const url = `${INVITE_BASE_URL}/?name=${encodeURIComponent(trimmed)}`;
+    const inv = await createInvitation(trimmed, url);
+    res.json(inv);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to create invitation" });
+  }
+});
+
+app.delete("/admin/invitations/:id", async (req, res) => {
+  try {
+    await archivePage(req.params.id);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete invitation" });
+  }
 });
 
 // ── Admin UI ──────────────────────────────────────────────────────────────────
