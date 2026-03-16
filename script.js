@@ -1,3 +1,5 @@
+const SERVER_URL = "https://your-server.up.railway.app"; // replace with your deployed server URL
+
 const loadingScreen = document.getElementById("letter-seal-screen");
 const openInvitationButton = document.getElementById("open-invitation");
 const loadingGuestName = document.getElementById("loading-guest-name");
@@ -173,7 +175,6 @@ const sectionObserver = new IntersectionObserver(
 document.querySelectorAll("[data-animate-section]").forEach((el) => sectionObserver.observe(el));
 
 // RSVP
-const SLACK_WEBHOOK = "";
 
 const rsvpMessageInput = document.getElementById("rsvp-message");
 const rsvpAcceptBtn = document.getElementById("rsvp-accept");
@@ -183,21 +184,11 @@ const rsvpFeedback = document.getElementById("rsvp-feedback");
 const rsvpFeedbackIcon = document.getElementById("rsvp-feedback-icon");
 const rsvpFeedbackText = document.getElementById("rsvp-feedback-text");
 
-const sendRsvpToSlack = async (attending, name, message) => {
-  const statusEmoji = attending ? "✅" : "❌";
-  const statusLabel = attending ? "Sẽ tham dự" : "Không thể tham dự";
-  const lines = [
-    `${statusEmoji} *RSVP mới từ thiệp cưới Đức & Hằng*`,
-    `*Khách:* ${name || "(Không tên)"}`,
-    `*Trả lời:* ${statusLabel}`,
-  ];
-  if (message) {
-    lines.push(`*Lời nhắn:* ${message}`);
-  }
-  await fetch(SLACK_WEBHOOK, {
+const sendRsvpToServer = async (attending, name, message) => {
+  await fetch(SERVER_URL + "/rsvp", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text: lines.join("\n") }),
+    body: JSON.stringify({ attending, name, message }),
   });
 };
 
@@ -209,7 +200,7 @@ const submitRsvp = async (attending) => {
   if (rsvpDeclineBtn) rsvpDeclineBtn.disabled = true;
 
   try {
-    await sendRsvpToSlack(attending, name, message);
+    await sendRsvpToServer(attending, name, message);
   } catch (_) {
     // fail silently — still show thank-you
   }
