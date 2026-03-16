@@ -37,6 +37,54 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css?v=1" />
+
+    <style>
+      #loading-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background-color: #fdf8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.7s ease, visibility 0.7s ease;
+      }
+      #loading-screen.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .loading-screen__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.75rem;
+      }
+      .loading-screen__brand {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2.6rem, 8vw, 4.8rem);
+        color: #7e621c;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        margin: 0;
+        opacity: 0;
+        animation: loading-fade-in 0.8s ease 0.1s forwards;
+      }
+      .loading-screen__spinner {
+        width: 44px;
+        height: 44px;
+        border: 2.5px solid rgba(139, 104, 64, 0.18);
+        border-top-color: #8b6840;
+        border-radius: 50%;
+        animation: loading-spin 0.85s linear infinite;
+      }
+      @keyframes loading-spin {
+        to { transform: rotate(360deg); }
+      }
+      @keyframes loading-fade-in {
+        to { opacity: 1; }
+      }
+    </style>
   </head>
   <body>
     <div class="slideshow" aria-hidden="true">
@@ -47,6 +95,13 @@
       <div class="slide" style="background-image: url('assets/banners/L1002613-2.webp')"></div>
       <div class="slide" style="background-image: url('assets/banners/L1002676.webp')"></div>
       <div class="slide" style="background-image: url('assets/banners/L1002701.webp')"></div>
+    </div>
+
+    <div id="loading-screen" role="status" aria-label="Đang tải trang">
+      <div class="loading-screen__content">
+        <p class="loading-screen__brand">Đ &amp; H</p>
+        <div class="loading-screen__spinner" aria-hidden="true"></div>
+      </div>
     </div>
 
     <div id="letter-seal-screen" class="letter-seal-screen" aria-live="polite">
@@ -793,6 +848,6 @@
       <img class="cd-disc" src="assets/cd.webp" alt="CD" aria-hidden="true" />
     </button>
 
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
   </body>
 </html>

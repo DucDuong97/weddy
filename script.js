@@ -1,5 +1,49 @@
 const SERVER_URL = "https://weddy-production-19a6.up.railway.app"; // replace with your deployed server URL
 
+// ── Page loading screen (hides once all static assets are ready) ──────────────
+const pageLoadingScreen = document.getElementById("loading-screen");
+
+if (pageLoadingScreen) {
+  const dismissLoadingScreen = () => {
+    pageLoadingScreen.classList.add("is-hidden");
+    pageLoadingScreen.addEventListener(
+      "transitionend",
+      () => pageLoadingScreen.remove(),
+      { once: true }
+    );
+  };
+
+  // CSS background-image URLs are not tracked by window.load, so we preload them manually.
+  const bgImagePromises = Array.from(document.querySelectorAll(".slide[style]")).map(
+    (el) =>
+      new Promise((resolve) => {
+        const match = el.style.backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+        if (!match) return resolve();
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = resolve;
+        img.src = match[1];
+      })
+  );
+
+  // Explicitly wait for story slider <img> elements (guards against future lazy-loading).
+  const sliderImagePromises = Array.from(
+    document.querySelectorAll(".story-slider__slide img")
+  ).map(
+    (el) =>
+      new Promise((resolve) => {
+        if (el.complete) return resolve();
+        el.addEventListener("load", resolve, { once: true });
+        el.addEventListener("error", resolve, { once: true });
+      })
+  );
+
+  const windowLoaded = new Promise((resolve) => window.addEventListener("load", resolve));
+
+  Promise.all([windowLoaded, ...bgImagePromises, ...sliderImagePromises]).then(dismissLoadingScreen);
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 const loadingScreen = document.getElementById("letter-seal-screen");
 const openInvitationButton = document.getElementById("open-invitation");
 const loadingGuestName = document.getElementById("loading-guest-name");
@@ -31,7 +75,7 @@ const openInvitation = () => {
   }, TEXT_FADE_DURATION + UNSEAL_DURATION);
 };
 
-const isLocalhost = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+const isLocalhost = false;
 
 if (loadingScreen && isLocalhost) {
   loadingScreen.classList.add("hidden");
