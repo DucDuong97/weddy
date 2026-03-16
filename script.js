@@ -218,25 +218,6 @@ const sectionObserver = new IntersectionObserver(
 
 document.querySelectorAll("[data-animate-section]").forEach((el) => sectionObserver.observe(el));
 
-// ── Gallery lazy-load (images load only when section first enters viewport) ──
-const gallerySection = document.getElementById("wedding-gallery");
-if (gallerySection) {
-  const galleryLazyObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        gallerySection.querySelectorAll("img[data-src]").forEach((img) => {
-          img.src = img.dataset.src;
-          img.removeAttribute("data-src");
-        });
-        galleryLazyObserver.disconnect();
-      });
-    },
-    { threshold: 0.1 }
-  );
-  galleryLazyObserver.observe(gallerySection);
-}
-
 // RSVP
 
 const rsvpMessageInput = document.getElementById("rsvp-message");
