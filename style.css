@@ -1014,30 +1014,10 @@ body::-webkit-scrollbar {
   margin: 0;
   overflow: hidden;
   position: relative;
-  background: rgba(250, 248, 242, 0.08);
 }
 
 .gallery-item--featured {
   grid-row: span 2;
-}
-
-.gallery-item::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    110deg,
-    rgba(250, 248, 242, 0.06) 20%,
-    rgba(250, 248, 242, 0.14) 45%,
-    rgba(250, 248, 242, 0.06) 70%
-  );
-  transform: translateX(-100%);
-  transition: opacity 0.25s ease;
-  animation: gallery-placeholder 1.8s ease-in-out infinite;
-}
-
-.gallery-item.is-loaded::before {
-  opacity: 0;
 }
 
 .gallery-item img {
