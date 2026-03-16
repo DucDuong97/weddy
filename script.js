@@ -109,66 +109,66 @@ const advanceSlide = () => {
 
 setInterval(advanceSlide, SLIDE_DURATION);
 
-// const storySliders = document.querySelectorAll("[data-story-slider]");
+const storySliders = document.querySelectorAll("[data-story-slider]");
 
-// storySliders.forEach((slider) => {
-//   const track = slider.querySelector(".story-slider__track");
-//   const sliderSlides = slider.querySelectorAll(".story-slider__slide");
-//   const dots = slider.querySelectorAll("[data-story-dot]");
+storySliders.forEach((slider) => {
+  const track = slider.querySelector(".story-slider__track");
+  const sliderSlides = slider.querySelectorAll(".story-slider__slide");
+  const dots = slider.querySelectorAll("[data-story-dot]");
 
-//   const prevButton = document.createElement("button");
-//   prevButton.className = "story-slider__button story-slider__button--prev";
-//   prevButton.type = "button";
-//   prevButton.setAttribute("aria-label", "Xem anh truoc");
-//   prevButton.setAttribute("data-story-prev", "");
-//   prevButton.innerHTML = "&#8249;";
-//   slider.appendChild(prevButton);
+  const prevButton = document.createElement("button");
+  prevButton.className = "story-slider__button story-slider__button--prev";
+  prevButton.type = "button";
+  prevButton.setAttribute("aria-label", "Xem anh truoc");
+  prevButton.setAttribute("data-story-prev", "");
+  prevButton.innerHTML = "&#8249;";
+  slider.appendChild(prevButton);
 
-//   const nextButton = document.createElement("button");
-//   nextButton.className = "story-slider__button story-slider__button--next";
-//   nextButton.type = "button";
-//   nextButton.setAttribute("aria-label", "Xem anh tiep theo");
-//   nextButton.setAttribute("data-story-next", "");
-//   nextButton.innerHTML = "&#8250;";
-//   slider.appendChild(nextButton);
+  const nextButton = document.createElement("button");
+  nextButton.className = "story-slider__button story-slider__button--next";
+  nextButton.type = "button";
+  nextButton.setAttribute("aria-label", "Xem anh tiep theo");
+  nextButton.setAttribute("data-story-next", "");
+  nextButton.innerHTML = "&#8250;";
+  slider.appendChild(nextButton);
 
-//   if (sliderSlides.length <= 1) {
-//     prevButton.style.display = "none";
-//     nextButton.style.display = "none";
-//   }
+  if (sliderSlides.length <= 1) {
+    prevButton.style.display = "none";
+    nextButton.style.display = "none";
+  }
 
-//   if (!track || sliderSlides.length === 0) {
-//     return;
-//   }
+  if (!track || sliderSlides.length === 0) {
+    return;
+  }
 
-//   let currentStorySlide = 0;
+  let currentStorySlide = 0;
 
-//   const updateStorySlider = (nextIndex) => {
-//     currentStorySlide = (nextIndex + sliderSlides.length) % sliderSlides.length;
-//     track.style.transform = `translateX(-${currentStorySlide * 100}%)`;
+  const updateStorySlider = (nextIndex) => {
+    currentStorySlide = (nextIndex + sliderSlides.length) % sliderSlides.length;
+    track.style.transform = `translateX(-${currentStorySlide * 100}%)`;
 
-//     dots.forEach((dot, dotIndex) => {
-//       dot.classList.toggle("is-active", dotIndex === currentStorySlide);
-//       dot.setAttribute("aria-pressed", dotIndex === currentStorySlide ? "true" : "false");
-//     });
-//   };
+    dots.forEach((dot, dotIndex) => {
+      dot.classList.toggle("is-active", dotIndex === currentStorySlide);
+      dot.setAttribute("aria-pressed", dotIndex === currentStorySlide ? "true" : "false");
+    });
+  };
 
-//   prevButton?.addEventListener("click", () => {
-//     updateStorySlider(currentStorySlide - 1);
-//   });
+  prevButton?.addEventListener("click", () => {
+    updateStorySlider(currentStorySlide - 1);
+  });
 
-//   nextButton?.addEventListener("click", () => {
-//     updateStorySlider(currentStorySlide + 1);
-//   });
+  nextButton?.addEventListener("click", () => {
+    updateStorySlider(currentStorySlide + 1);
+  });
 
-//   dots.forEach((dot, dotIndex) => {
-//     dot.addEventListener("click", () => {
-//       updateStorySlider(dotIndex);
-//     });
-//   });
+  dots.forEach((dot, dotIndex) => {
+    dot.addEventListener("click", () => {
+      updateStorySlider(dotIndex);
+    });
+  });
 
-//   updateStorySlider(0);
-// });
+  updateStorySlider(0);
+});
 
 if (openInvitationButton) {
   openInvitationButton.addEventListener("click", openInvitation);
