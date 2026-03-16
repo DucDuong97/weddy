@@ -26,21 +26,9 @@ if (pageLoadingScreen) {
       })
   );
 
-  // Explicitly wait for story slider <img> elements (guards against future lazy-loading).
-  const sliderImagePromises = Array.from(
-    document.querySelectorAll(".story-slider__slide img")
-  ).map(
-    (el) =>
-      new Promise((resolve) => {
-        if (el.complete) return resolve();
-        el.addEventListener("load", resolve, { once: true });
-        el.addEventListener("error", resolve, { once: true });
-      })
-  );
-
   const windowLoaded = new Promise((resolve) => window.addEventListener("load", resolve));
 
-  Promise.all([windowLoaded, ...bgImagePromises, ...sliderImagePromises]).then(dismissLoadingScreen);
+  Promise.all([windowLoaded, ...bgImagePromises]).then(dismissLoadingScreen);
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -142,6 +130,52 @@ storySliders.forEach((slider) => {
   }
 
   let currentStorySlide = 0;
+  let isSliderNearViewport = false;
+
+  const mountStorySlideImage = (slide) => {
+    if (!slide || slide.querySelector("img")) {
+      return;
+    }
+
+    const src = slide.dataset.src;
+    if (!src) {
+      return;
+    }
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = slide.dataset.alt || "";
+    img.loading = "lazy";
+    img.decoding = "async";
+    slide.appendChild(img);
+    slide.classList.add("is-loaded");
+  };
+
+  const unmountStorySlideImage = (slide) => {
+    const img = slide?.querySelector("img");
+    if (!img) {
+      return;
+    }
+
+    img.remove();
+    slide.classList.remove("is-loaded");
+  };
+
+  const syncStorySliderImages = () => {
+    sliderSlides.forEach((slide, slideIndex) => {
+      const isCurrentSlide = slideIndex === currentStorySlide;
+      const isPrevSlide = slideIndex === (currentStorySlide - 1 + sliderSlides.length) % sliderSlides.length;
+      const isNextSlide = slideIndex === (currentStorySlide + 1) % sliderSlides.length;
+      const shouldMountImage = isSliderNearViewport && (isCurrentSlide || isPrevSlide || isNextSlide);
+
+      if (shouldMountImage) {
+        mountStorySlideImage(slide);
+        return;
+      }
+
+      unmountStorySlideImage(slide);
+    });
+  };
 
   const updateStorySlider = (nextIndex) => {
     currentStorySlide = (nextIndex + sliderSlides.length) % sliderSlides.length;
@@ -151,6 +185,8 @@ storySliders.forEach((slider) => {
       dot.classList.toggle("is-active", dotIndex === currentStorySlide);
       dot.setAttribute("aria-pressed", dotIndex === currentStorySlide ? "true" : "false");
     });
+
+    syncStorySliderImages();
   };
 
   prevButton?.addEventListener("click", () => {
@@ -166,6 +202,24 @@ storySliders.forEach((slider) => {
       updateStorySlider(dotIndex);
     });
   });
+
+  if ("IntersectionObserver" in window) {
+    const storySliderObserver = new IntersectionObserver(
+      ([entry]) => {
+        isSliderNearViewport = Boolean(entry?.isIntersecting);
+        syncStorySliderImages();
+      },
+      {
+        rootMargin: "500px 0px",
+        threshold: 0.01,
+      }
+    );
+
+    storySliderObserver.observe(slider);
+  } else {
+    isSliderNearViewport = true;
+    syncStorySliderImages();
+  }
 
   updateStorySlider(0);
 });
