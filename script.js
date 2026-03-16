@@ -1,4 +1,4 @@
-const SERVER_URL = "https://your-server.up.railway.app"; // replace with your deployed server URL
+const SERVER_URL = "weddy-production-19a6.up.railway.app"; // replace with your deployed server URL
 
 const loadingScreen = document.getElementById("letter-seal-screen");
 const openInvitationButton = document.getElementById("open-invitation");
