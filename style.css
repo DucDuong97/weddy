@@ -678,7 +678,10 @@ body::-webkit-scrollbar {
 }
 
 /* Our-love-story entrance animations */
-.our-love-story {
+.our-love-story__heading,
+.story-moment__marker,
+.story-moment .story-slider,
+.story-moment .story-note {
   opacity: 0;
 }
 
