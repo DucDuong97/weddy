@@ -238,7 +238,7 @@ const rsvpFeedbackText = document.getElementById("rsvp-feedback-text");
 
 if (rsvpNameField) {
   console.log("hasGuestNameFromQuery:", hasGuestNameFromQuery);
-  rsvpNameField.hidden = hasGuestNameFromQuery;
+  rsvpNameField.style.display = hasGuestNameFromQuery ? "none" : "";
 }
 
 if (rsvpNameInput) {
