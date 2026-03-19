@@ -237,6 +237,7 @@ const rsvpFeedbackIcon = document.getElementById("rsvp-feedback-icon");
 const rsvpFeedbackText = document.getElementById("rsvp-feedback-text");
 
 if (rsvpNameField) {
+  console.log("hasGuestNameFromQuery:", hasGuestNameFromQuery);
   rsvpNameField.hidden = hasGuestNameFromQuery;
 }
 
