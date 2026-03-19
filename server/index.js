@@ -124,7 +124,8 @@ app.post("/admin/invitations", async (req, res) => {
     const { name } = req.body;
     if (!name) return res.status(400).json({ error: "name required" });
     const trimmed = name.trim();
-    const url = `${INVITE_BASE_URL}/?name=${encodeURIComponent(trimmed)}`;
+    
+    const url = `${INVITE_BASE_URL}/?n=${Buffer.from(trimmed || "").toString("base64url")}`;
     const inv = await createInvitation(trimmed, url);
     res.json(inv);
   } catch (err) {
