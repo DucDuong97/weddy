@@ -98,7 +98,7 @@ app.post("/rsvp", async (req, res) => {
     if (existing) {
       await updateRsvp(existing.id, !!attending, message || "", respondedAt);
     } else {
-      const url = `${INVITE_BASE_URL}/?name=${encodeURIComponent(name || "")}`;
+      const url = `${INVITE_BASE_URL}/?n=${Buffer.from(name || "").toString("base64url")}`;
       const inv = await createInvitation(name || "(unknown)", url);
       await updateRsvp(inv.id, !!attending, message || "", respondedAt);
     }

@@ -42,8 +42,23 @@ const UNSEAL_DURATION = 1000;
 let isOpeningInvitation = false;
 
 const params = new URLSearchParams(window.location.search);
-const guestName = params.get("name")?.trim() || DEFAULT_GUEST_NAME;
-const hasGuestNameFromQuery = Boolean(guestName);
+const _decodeBase64UrlName = (str) => {
+  try {
+    const base64 = str.replace(/-/g, "+").replace(/_/g, "/");
+    return decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + c.charCodeAt(0).toString(16).padStart(2, "0"))
+        .join("")
+    );
+  } catch {
+    return "";
+  }
+};
+const _nParam = params.get("n");
+const _rawGuestName = _nParam ? _decodeBase64UrlName(_nParam) : params.get("name")?.trim();
+const guestName = _rawGuestName || DEFAULT_GUEST_NAME;
+const hasGuestNameFromQuery = Boolean(_rawGuestName);
 
 const openInvitation = () => {
   if (!loadingScreen || isOpeningInvitation) {
@@ -77,7 +92,7 @@ if (loadingScreen && isLocalhost) {
 
 window.addEventListener("load", () => {
   if (loadingGuestName) {
-    loadingGuestName.textContent = guestName || "Bạn";
+    loadingGuestName.textContent = guestName || "";
   }
 
   if (greeting) {
