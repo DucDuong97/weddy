@@ -55,8 +55,21 @@ const _decodeBase64UrlName = (str) => {
     return "";
   }
 };
+/** Inverse of server: `name.trim().replace(/ /g, "-")` in invite URLs. */
+const _decodeGuestParamG = (g) => {
+  if (!g) return "";
+  try {
+    return decodeURIComponent(g).replace(/-/g, " ").trim();
+  } catch {
+    return "";
+  }
+};
 const _nParam = params.get("n");
-const _rawGuestName = _nParam ? _decodeBase64UrlName(_nParam) : params.get("name")?.trim();
+const _gParam = params.get("g");
+const _fromG = _decodeGuestParamG(_gParam ?? "");
+const _rawGuestName = _nParam
+  ? _decodeBase64UrlName(_nParam)
+  : _fromG || params.get("name")?.trim();
 const guestName = _rawGuestName || DEFAULT_GUEST_NAME;
 const hasGuestNameFromQuery = Boolean(_rawGuestName);
 

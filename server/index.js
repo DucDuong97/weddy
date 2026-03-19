@@ -98,7 +98,7 @@ app.post("/rsvp", async (req, res) => {
     if (existing) {
       await updateRsvp(existing.id, !!attending, message || "", respondedAt);
     } else {
-      const url = `${INVITE_BASE_URL}/?n=${Buffer.from(name || "").toString("base64url")}`;
+      const url = `${INVITE_BASE_URL}/?g=${(name || "").trim().replace(/ /g, "-")}`;
       const inv = await createInvitation(name || "(unknown)", url);
       await updateRsvp(inv.id, !!attending, message || "", respondedAt);
     }
@@ -125,7 +125,7 @@ app.post("/admin/invitations", async (req, res) => {
     if (!name) return res.status(400).json({ error: "name required" });
     const trimmed = name.trim();
     
-    const url = `${INVITE_BASE_URL}/?n=${Buffer.from(trimmed || "").toString("base64url")}`;
+    const url = `${INVITE_BASE_URL}/?g=${trimmed.replace(/ /g, "-")}`;
     const inv = await createInvitation(trimmed, url);
     res.json(inv);
   } catch (err) {
