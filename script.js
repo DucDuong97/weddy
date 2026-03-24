@@ -250,7 +250,6 @@ const rsvpFeedbackIcon = document.getElementById("rsvp-feedback-icon");
 const rsvpFeedbackText = document.getElementById("rsvp-feedback-text");
 
 if (rsvpNameField) {
-  console.log("hasGuestNameFromQuery:", hasGuestNameFromQuery);
   rsvpNameField.style.display = hasGuestNameFromQuery ? "none" : "";
 }
 
@@ -281,7 +280,7 @@ const getRsvpName = () => {
   return typedName;
 };
 
-const submitRsvp = async (attending) => {
+const submitRsvp = (attending) => {
   const name = getRsvpName();
   const message = rsvpMessageInput?.value.trim() || "";
 
@@ -293,7 +292,7 @@ const submitRsvp = async (attending) => {
   if (rsvpDeclineBtn) rsvpDeclineBtn.disabled = true;
 
   try {
-    await sendRsvpToServer(attending, name, message);
+    sendRsvpToServer(attending, name, message);
   } catch (_) {
     // fail silently — still show thank-you
   }
