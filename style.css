@@ -1014,35 +1014,37 @@ body::-webkit-scrollbar {
   z-index: 0;
 }
 
-/* Small/medium tiling stars */
+/* Small/medium tiling stars — oversized so edge never shows during translation */
 .gallery-stars::before {
   content: '';
   position: absolute;
-  inset: -20%;
+  inset: -30%;
   background-image:
     radial-gradient(circle, rgba(255, 255, 255, 0.85) 0.5px, transparent 0.5px),
     radial-gradient(circle, rgba(255, 255, 255, 0.55) 0.5px, transparent 0.5px),
     radial-gradient(circle, rgba(220, 230, 255, 0.45) 0.5px, transparent 0.5px);
   background-size: 130px 130px, 190px 190px, 260px 260px;
   background-position: 18px 24px, 75px 95px, 200px 60px;
-  animation: stars-drift 180s linear infinite;
+  will-change: transform;
+  animation: stars-drift-sm 180s linear infinite;
 }
 
 /* Larger brighter stars */
 .gallery-stars::after {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: -10%;
   background-image:
     radial-gradient(circle, rgba(255, 255, 255, 0.95) 1px, transparent 1px),
     radial-gradient(circle, rgba(200, 220, 255, 0.7) 1.5px, transparent 1.5px),
     radial-gradient(circle, rgba(255, 240, 200, 0.6) 1px, transparent 1px);
   background-size: 340px 340px, 520px 520px, 470px 470px;
   background-position: 50px 90px, 210px 320px, 380px 140px;
-  animation: stars-drift 240s linear infinite reverse;
+  will-change: transform;
+  animation: stars-drift-lg 240s linear infinite reverse;
 }
 
-/* Nebula colour glow */
+/* Nebula colour glow — opacity-only animation runs on compositor */
 .gallery-nebula {
   position: absolute;
   inset: 0;
@@ -1055,14 +1057,28 @@ body::-webkit-scrollbar {
   animation: nebula-pulse 20s ease-in-out infinite alternate;
 }
 
-@keyframes stars-drift {
-  from { background-position: 18px 24px, 75px 95px, 200px 60px; }
-  to   { background-position: 148px 154px, 265px 285px, 460px 320px; }
+/* translate() runs entirely on GPU compositor — no repaint */
+@keyframes stars-drift-sm {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(260px, 260px); }
+}
+
+@keyframes stars-drift-lg {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(340px, 0); }
 }
 
 @keyframes nebula-pulse {
   from { opacity: 0.2; }
   to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-stars::before,
+  .gallery-stars::after,
+  .gallery-nebula {
+    animation: none;
+  }
 }
 
 /* Keep content above the star field */
