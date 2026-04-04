@@ -947,11 +947,57 @@ body::-webkit-scrollbar {
   color: var(--text);
 }
 
-.story-note p:last-child {
+.story-note > p {
   margin: 0;
   font-size: 1rem;
   line-height: 1.9;
   color: rgba(30, 26, 20, 0.82);
+}
+
+.story-note__quote {
+  position: relative;
+  margin: 0;
+  padding: 0.2rem 0 0 clamp(2.15rem, 5vw, 2.65rem);
+  border: 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.02rem, 2.1vw, 1.18rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.68;
+  color: rgba(30, 26, 20, 0.9);
+}
+
+.story-note__quote::before {
+  content: "\201C";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.6rem, 5.8vw, 3.4rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.72;
+  color: rgba(201, 168, 76, 0.38);
+  pointer-events: none;
+}
+
+.story-note__quote p {
+  margin: 0;
+}
+
+.story-note__quote footer {
+  margin-top: 0.9rem;
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-style: normal;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.story-note__quote cite {
+  font-style: normal;
 }
 
 .short-story,
@@ -1215,7 +1261,6 @@ body::-webkit-scrollbar {
   }
 
   .timeline {
-    padding-block: 3.2rem 3.6rem;
     margin-bottom: 6rem;
   }
 
@@ -1339,9 +1384,19 @@ body::-webkit-scrollbar {
     font-size: 1.5rem;
   }
 
-  .story-note p:last-child {
+  .story-note > p {
     font-size: 0.94rem;
     line-height: 1.75;
+  }
+
+  .story-note__quote {
+    font-size: 0.98rem;
+    line-height: 1.62;
+  }
+
+  .story-note__quote footer {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
   }
 
   .wedding-gallery {
@@ -2007,7 +2062,7 @@ blockquote {
   }
 
   .invitation {
-    padding-top: 4rem;
+    padding-top: 300px;
   }
 
   .signature {
