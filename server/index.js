@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const crypto = require("crypto");
 const { Client } = require("@notionhq/client");
 
 const app = express();
@@ -23,6 +24,74 @@ const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// ── Admin authentication ─────────────────────────────────────────────────────
+const ADMIN_PASSWORD = "onemor";
+const ADMIN_TOKEN_SECRET = crypto.randomBytes(32).toString("hex");
+
+const makeAdminToken = () =>
+  crypto.createHmac("sha256", ADMIN_TOKEN_SECRET).update(ADMIN_PASSWORD).digest("hex");
+
+const parseCookies = (header) =>
+  Object.fromEntries((header || "").split(";").map((c) => c.trim().split("=").map(decodeURIComponent)));
+
+const requireAdmin = (req, res, next) => {
+  const cookies = parseCookies(req.headers.cookie);
+  if (cookies.admin_token === makeAdminToken()) return next();
+  res.redirect("/admin/login");
+};
+
+const ADMIN_LOGIN_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Login</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #faf9f7; color: #2d2d2d; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .login-card { background: #fff; border: 1px solid #e8e0d8; border-radius: 12px; padding: 2.5rem 2rem; width: 100%; max-width: 360px; text-align: center; }
+  .login-card h1 { font-size: 1.3rem; color: #7a5c4f; margin-bottom: .4rem; }
+  .login-card p { font-size: .85rem; color: #888; margin-bottom: 1.5rem; }
+  .login-card input[type=password] { width: 100%; border: 1px solid #d0c8c0; border-radius: 6px; padding: .6rem .75rem; font-size: 1rem; margin-bottom: 1rem; text-align: center; }
+  .login-card input:focus { outline: 2px solid #c9a87c; border-color: transparent; }
+  .login-card button { width: 100%; border: none; border-radius: 6px; padding: .65rem; cursor: pointer; font-size: .95rem; background: #c9a87c; color: #fff; font-weight: 600; }
+  .login-card button:hover { background: #b8956a; }
+  .error { color: #c0392b; font-size: .85rem; margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+<div class="login-card">
+  <h1>Admin Login</h1>
+  <p>Enter the admin password to continue.</p>
+  <form method="POST" action="/admin/login">
+    ERRORMSG
+    <input type="password" name="password" placeholder="Password" autofocus required>
+    <button type="submit">Login</button>
+  </form>
+</div>
+</body>
+</html>`;
+
+app.get("/admin/login", (_req, res) => {
+  res.send(ADMIN_LOGIN_HTML.replace("ERRORMSG", ""));
+});
+
+app.post("/admin/login", (req, res) => {
+  if (req.body.password === ADMIN_PASSWORD) {
+    res.setHeader("Set-Cookie", `admin_token=${makeAdminToken()}; Path=/admin; HttpOnly; SameSite=Lax`);
+    return res.redirect("/admin");
+  }
+  res.status(401).send(
+    ADMIN_LOGIN_HTML.replace("ERRORMSG", '<p class="error">Incorrect password.</p>')
+  );
+});
+
+app.get("/admin/logout", (_req, res) => {
+  res.setHeader("Set-Cookie", "admin_token=; Path=/admin; HttpOnly; Max-Age=0");
+  res.redirect("/admin/login");
+});
 
 // ── Notion helpers ────────────────────────────────────────────────────────────
 const pageToInvitation = (page) => {
@@ -109,8 +178,8 @@ app.post("/rsvp", async (req, res) => {
   }
 });
 
-// ── Admin API ─────────────────────────────────────────────────────────────────
-app.get("/admin/invitations", async (_req, res) => {
+// ── Admin API (all protected by requireAdmin) ────────────────────────────────
+app.get("/admin/invitations", requireAdmin, async (_req, res) => {
   try {
     res.json(await getInvitations());
   } catch (err) {
@@ -119,7 +188,7 @@ app.get("/admin/invitations", async (_req, res) => {
   }
 });
 
-app.post("/admin/invitations", async (req, res) => {
+app.post("/admin/invitations", requireAdmin, async (req, res) => {
   try {
     const { name } = req.body;
     if (!name) return res.status(400).json({ error: "name required" });
@@ -134,7 +203,7 @@ app.post("/admin/invitations", async (req, res) => {
   }
 });
 
-app.delete("/admin/invitations/:id", async (req, res) => {
+app.delete("/admin/invitations/:id", requireAdmin, async (req, res) => {
   try {
     await archivePage(req.params.id);
     res.json({ ok: true });
@@ -154,7 +223,7 @@ const ADMIN_HTML = `<!DOCTYPE html>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, sans-serif; background: #faf9f7; color: #2d2d2d; padding: 2rem; }
-  h1 { font-size: 1.5rem; margin-bottom: 1.5rem; color: #7a5c4f; }
+  h1 { font-size: 1.5rem; color: #7a5c4f; }
   .card { background: #fff; border: 1px solid #e8e0d8; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem; }
   .card h2 { font-size: 1rem; margin-bottom: 1rem; color: #555; }
   form { display: flex; gap: .75rem; }
@@ -184,7 +253,10 @@ const ADMIN_HTML = `<!DOCTYPE html>
 </style>
 </head>
 <body>
-<h1>💌 Wedding Invitations</h1>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+  <h1 style="margin:0">💌 Wedding Invitations</h1>
+  <a href="/admin/logout" style="font-size:.85rem;color:#888;text-decoration:none;border:1px solid #d0c8c0;padding:.35rem .8rem;border-radius:6px">Logout</a>
+</div>
 
 <div class="stats" id="stats"></div>
 
@@ -307,7 +379,7 @@ load();
 </body>
 </html>`;
 
-app.get("/admin", (_req, res) => res.send(ADMIN_HTML));
+app.get("/admin", requireAdmin, (_req, res) => res.send(ADMIN_HTML));
 app.get("/", (_req, res) => res.redirect("/admin"));
 
 app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
