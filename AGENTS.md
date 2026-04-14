@@ -34,6 +34,7 @@ NOTION_TOKEN=<token> NOTION_DATABASE_ID=<id> npm run dev
 - `npm run dev` uses `node --watch index.js` for auto-reload on file changes.
 - Runs on port 3000 by default (`PORT` env var to override).
 - The frontend works fully without the backend — RSVP submission fails silently.
+- `NOTION_TOKEN` and `NOTION_DATABASE_ID` secrets are only needed if you are working on the backend RSVP/admin features. For frontend-only work, skip them entirely.
 
 ### No lint/test/build tooling
 
