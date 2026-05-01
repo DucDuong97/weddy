@@ -1,5 +1,3 @@
-const SERVER_URL = "https://weddy-production-19a6.up.railway.app"; // replace with your deployed server URL
-
 // ── Page loading screen (hides once all static assets are ready) ──────────────
 const pageLoadingScreen = document.getElementById("loading-screen");
 
@@ -35,7 +33,6 @@ if (pageLoadingScreen) {
 const loadingScreen = document.getElementById("letter-seal-screen");
 const openInvitationButton = document.getElementById("open-invitation");
 const loadingGuestName = document.getElementById("loading-guest-name");
-const greeting = document.getElementById("attendance-greeting");
 const DEFAULT_GUEST_NAME = "";
 const TEXT_FADE_DURATION = 600;
 const UNSEAL_DURATION = 1000;
@@ -71,7 +68,6 @@ const _rawGuestName = _nParam
   ? _decodeBase64UrlName(_nParam)
   : _fromG || params.get("name")?.trim();
 const guestName = _rawGuestName || DEFAULT_GUEST_NAME;
-const hasGuestNameFromQuery = Boolean(_rawGuestName);
 
 const openInvitation = () => {
   if (!loadingScreen || isOpeningInvitation) {
@@ -106,12 +102,6 @@ if (loadingScreen && isLocalhost) {
 window.addEventListener("load", () => {
   if (loadingGuestName) {
     loadingGuestName.textContent = guestName || "";
-  }
-
-  if (greeting) {
-    greeting.textContent = guestName
-      ? `${guestName} ơi, sự hiện diện của bạn là món quà quý giá nhất đối với chúng tôi.`
-      : "Sự hiện diện của bạn là món quà quý giá nhất đối với chúng tôi.";
   }
 });
 
@@ -236,90 +226,6 @@ const sectionObserver = new IntersectionObserver(
 );
 
 document.querySelectorAll("[data-animate-section]").forEach((el) => sectionObserver.observe(el));
-
-// RSVP
-
-const rsvpMessageInput = document.getElementById("rsvp-message");
-const rsvpNameField = document.getElementById("rsvp-name-field");
-const rsvpNameInput = document.getElementById("rsvp-name");
-const rsvpAcceptBtn = document.getElementById("rsvp-accept");
-const rsvpDeclineBtn = document.getElementById("rsvp-decline");
-const rsvpFormWrap = document.getElementById("rsvp-form-wrap");
-const rsvpFeedback = document.getElementById("rsvp-feedback");
-const rsvpFeedbackIcon = document.getElementById("rsvp-feedback-icon");
-const rsvpFeedbackText = document.getElementById("rsvp-feedback-text");
-
-if (rsvpNameField) {
-  rsvpNameField.style.display = hasGuestNameFromQuery ? "none" : "";
-}
-
-if (rsvpNameInput) {
-  rsvpNameInput.required = !hasGuestNameFromQuery;
-}
-
-const sendRsvpToServer = async (attending, name, message) => {
-  await fetch(SERVER_URL + "/rsvp", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ attending, name, message }),
-  });
-};
-
-const getRsvpName = () => {
-  if (hasGuestNameFromQuery) {
-    return guestName;
-  }
-
-  const typedName = rsvpNameInput?.value.trim() || "";
-
-  if (!typedName && rsvpNameInput) {
-    rsvpNameInput.reportValidity();
-    rsvpNameInput.focus();
-  }
-
-  return typedName;
-};
-
-const submitRsvp = (attending) => {
-  const name = getRsvpName();
-  const message = rsvpMessageInput?.value.trim() || "";
-
-  if (!name) {
-    return;
-  }
-
-  if (rsvpAcceptBtn) rsvpAcceptBtn.disabled = true;
-  if (rsvpDeclineBtn) rsvpDeclineBtn.disabled = true;
-
-  try {
-    sendRsvpToServer(attending, name, message);
-  } catch (_) {
-    // fail silently — still show thank-you
-  }
-
-  if (rsvpFormWrap) rsvpFormWrap.hidden = true;
-  if (rsvpFeedback) rsvpFeedback.hidden = false;
-
-  if (attending) {
-    if (rsvpFeedbackIcon) rsvpFeedbackIcon.textContent = "🎉";
-    if (rsvpFeedbackText) {
-      rsvpFeedbackText.textContent = `Cảm ơn ${name}! Chúng mình rất vui khi được đón tiếp bạn. Hẹn gặp nhau vào ngày 20 tháng 04 năm 2026 nhé!`;
-    }
-  } else {
-    if (rsvpFeedbackIcon) rsvpFeedbackIcon.textContent = "💌";
-    if (rsvpFeedbackText) {
-      rsvpFeedbackText.textContent = `Cảm ơn ${name} đã thông báo. Chúng mình rất tiếc khi không được gặp bạn, nhưng luôn trân trọng tình cảm của bạn!`;
-    }
-  }
-};
-
-if (rsvpAcceptBtn) {
-  rsvpAcceptBtn.addEventListener("click", () => submitRsvp(true));
-}
-
-if (rsvpDeclineBtn) {
-  rsvpDeclineBtn.addEventListener("click", () => submitRsvp(false));
-}
 
 // ── Lightbox ──────────────────────────────────────────────────────────────────
 const lightbox        = document.getElementById("lightbox");
